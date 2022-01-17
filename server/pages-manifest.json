@@ -1,0 +1,22 @@
+{
+  "/_app": "pages/_app.js",
+  "/_document": "pages/_document.js",
+  "/api/hello": "pages/api/hello.js",
+  "/customer-journey": "pages/customer-journey.html",
+  "/faq": "pages/faq.html",
+  "/feedback": "pages/feedback.html",
+  "/forgot-password": "pages/forgot-password.html",
+  "/": "pages/index.html",
+  "/login": "pages/login.html",
+  "/news/[newsUrl]": "pages/news/[newsUrl].js",
+  "/news": "pages/news.html",
+  "/product/[productUrl]": "pages/product/[productUrl].js",
+  "/product/compare": "pages/product/compare.html",
+  "/product": "pages/product.html",
+  "/promotion/[promotionUrl]": "pages/promotion/[promotionUrl].js",
+  "/promotion": "pages/promotion.html",
+  "/register": "pages/register.html",
+  "/search": "pages/search.html",
+  "/_error": "pages/_error.js",
+  "/404": "pages/404.html"
+}
