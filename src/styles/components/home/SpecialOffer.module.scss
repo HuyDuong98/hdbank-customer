@@ -1,0 +1,223 @@
+@import "../../common/colours";
+@import "../../common/screen_size";
+
+.container {
+  padding: 0 1rem;
+}
+
+.offerWrap {
+  padding: 2.5rem 0;
+  position: relative;
+
+  .headingWrap {
+    position: relative;
+    padding: 0 1rem;
+    order: 1;
+
+    &::after {
+      position: absolute;
+      left: 50%;
+      bottom: -1.5rem;
+      transform: translateX(-50%);
+
+      content: "";
+      display: block;
+      width: 3rem;
+      height: 1px;
+      background: $app--black;
+    }
+  }
+
+  .sliderWrap {
+    margin-top: 3.5rem;
+    position: relative;
+    width: 90%;
+    order: 2;
+
+    @media (max-width: $md) {
+      width: 100%;
+    }
+
+    @media (max-width: $sm) {
+      order: 3;
+    }
+
+    .swiperWrap {
+      width: calc(100% - 12rem);
+      @media (max-width: $sm) {
+        width: 100%;
+      }
+
+      .slideItem {
+        text-align: center;
+
+        // @media (max-width: $xl) {
+        //   min-width: 19rem;
+        // }
+
+        // @media (max-width: $lg) {
+        //   min-width: 22rem;
+        // }
+
+        // @media (max-width: $md) {
+        //   min-width: 18rem;
+        // }
+
+        // @media (max-width: $sm) {
+        //   min-width: 24rem;
+        // }
+
+        // .itemWrap {
+        //   @media (max-width: $sm) {
+        //     width: 70% !important;
+        //   }
+        // }
+
+        img {
+          width: 85%;
+          border-radius: 0.5rem;
+        }
+
+        .productInfo {
+          margin-top: 0.5rem;
+
+          span {
+            display: block;
+            &:first-child {
+              font-weight: 700;
+              padding-bottom: 0.5rem;
+
+              @media (max-width: $md) {
+                font-weight: 600;
+              }
+            }
+
+            &:last-child {
+              font-size: 1rem;
+
+              @media (max-width: $md) {
+                font-size: 0.875rem;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .nav {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      color: $app--white;
+      background-color: rgba($color: $app--black, $alpha: 0.15);
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+    }
+
+    .navPrev {
+      @extend .nav;
+      left: 0;
+
+      @media (max-width: $md) {
+        left: 2rem;
+      }
+    }
+    .navNext {
+      @extend .nav;
+      right: 0;
+
+      @media (max-width: $md) {
+        right: 2rem;
+      }
+    }
+  }
+}
+
+//common
+.headingWrap {
+  text-align: center;
+  position: relative;
+
+  .title {
+    padding-bottom: 0.5rem;
+
+    h3 {
+      font-weight: 700;
+      padding-bottom: 0.5rem;
+
+      @media (max-width: $lg) {
+        font-size: 2rem;
+      }
+
+      @media (max-width: $md) {
+        font-size: 1.8rem;
+      }
+
+      @media (max-width: $sm) {
+        font-size: 1.5rem;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: $sm) {
+      font-size: 0.875rem;
+      text-align: center;
+
+      padding: 1rem 0;
+    }
+  }
+
+  span {
+    font-size: 1rem;
+  }
+
+  @media (max-width: $sm) {
+    font-size: 0.875rem;
+  }
+}
+
+.icon {
+  position: absolute;
+  top: -1.125rem;
+  left: 50%;
+  transform: translateX(-50%);
+
+  box-shadow: 0 0 0.75rem -0.313rem $app--black;
+
+  width: 2rem;
+  height: 2rem;
+
+  background: $app--white;
+
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  text-align: center;
+
+  img {
+    width: 1.5rem;
+  }
+}
+
+.btnDiv {
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+  order: 3;
+
+  @media (max-width: $sm) {
+    order: 2;
+
+    margin-top: 3.5rem;
+    margin-bottom: 0rem;
+  }
+}
+
+.mobileBtn {
+  border-radius: 2.5rem !important;
+  a {
+    color: $app--white;
+  }
+}

@@ -1,0 +1,184 @@
+@import "../common/colours";
+@import "../common/screen_size";
+@import "../common/font";
+
+.detailPromotion {
+  h2 {
+    font-size: 2.3rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    @media (max-width: $sm) {
+      font-size: 1.5rem;
+      margin-bottom: 0.875rem;
+    }
+  }
+
+  h4 {
+    color: rgba(0, 0, 0, 0.8);
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+  h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    padding: 1.5rem 0;
+
+    font-family: Circular;
+    @media (max-width: $sm) {
+      font-size: 1.5rem;
+      padding-top: 1.5rem;
+    }
+  }
+  h6 {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+  }
+  h3 {
+    font-size: 2.3rem;
+    font-weight: bold;
+    margin-bottom: 2.5rem;
+  }
+
+  .banner {
+    padding-top: 1.5rem;
+    img {
+      border-radius: 0.625rem;
+    }
+  }
+  .contentDetail {
+    h2 {
+      margin-bottom: 1rem;
+      font-size: 2rem;
+      font-family: Circular;
+      @media (max-width: $sm) {
+        font-size: 1.5rem;
+      }
+    }
+
+    .description {
+      h6 {
+        font-weight: bold;
+      }
+      .time {
+        display: flex;
+        align-items: center;
+        color: $app--gray--light;
+        font-size: 0.75rem;
+        span {
+          margin-left: 0.5rem;
+        }
+      }
+
+      .paginationActiveStyle {
+        background-color: $app--primary--01;
+        opacity: 1;
+      }
+
+      .sliderSpacingBottom {
+        height: 2rem;
+      }
+
+      .card {
+        text-align: center;
+        padding: 0.75rem 0;
+        display: grid;
+        flex-direction: column;
+        justify-content: space-between;
+        grid-template-rows: 2fr 100px;
+        height: 100%;
+        img {
+          max-width: 100%;
+          max-height: 170px;
+          object-fit: contain;
+          margin: auto;
+        }
+        .detailCard {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          margin-top: 10px;
+        }
+        span {
+          font-weight: 400;
+        }
+        button {
+          margin-top: 0.5rem;
+          span {
+            font-weight: 700;
+          }
+        }
+      }
+    }
+  }
+
+  .prmotionContent {
+    img {
+      max-width: 100%;
+    }
+  }
+
+  .promotionsOther {
+    text-align: center;
+    h2 {
+      margin-bottom: 0.5rem;
+    }
+
+    .subTitle {
+      display: block;
+    }
+
+    hr {
+      margin: auto;
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+      max-width: 3rem;
+      background-color: rgba($color: $app--black, $alpha: 0.7);
+    }
+
+    button {
+      margin-top: 2rem;
+    }
+    .sliderOther {
+      position: relative;
+      .swiperOther {
+        width: calc(100% - 7rem);
+        @media (max-width: $sm) {
+          width: 100%;
+        }
+        .slideItem {
+          @media (max-width: $sm) {
+            width: 80% !important;
+          }
+          .itemWrap {
+            width: 80%;
+            margin: auto;
+
+            @media (max-width: $sm) {
+              width: 85%;
+            }
+          }
+        }
+      }
+
+      .nav {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        color: $app--white;
+        background-color: rgba($color: $app--black, $alpha: 0.15);
+        position: absolute;
+        top: 30%;
+      }
+
+      .navPrev {
+        @extend .nav;
+        left: 0;
+      }
+      .navNext {
+        @extend .nav;
+        right: 0;
+      }
+    }
+  }
+}

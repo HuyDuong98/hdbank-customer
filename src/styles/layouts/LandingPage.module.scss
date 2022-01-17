@@ -1,0 +1,26 @@
+@import '../common/screen_size';
+.wapperLadding {
+  margin-top: 4.375rem;
+  section {
+    padding: 2rem 0;
+  }
+  a {
+    text-decoration: none;
+  }
+}
+.listControl {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  z-index: 9;
+  gap: 20px;
+}
+.textBold {
+  font-weight: bold;
+}
+.overlay {
+  background-color: #000;
+}

@@ -1,0 +1,18 @@
+.shareLink {
+    padding:0.7rem 0.5rem;
+    img {
+        max-width: 2rem;
+    }
+    a + a {
+        margin-left: 1rem;
+    }
+}
+.boxFlex {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+.boxShadown {
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+}

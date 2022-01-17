@@ -1,0 +1,14 @@
+@import '../../common/_colours.scss';
+
+.container {
+  width: 100%;
+
+  span {
+    font-weight: 700;
+  }
+
+  .icon {
+    color: $app--bg--02;
+    cursor: pointer;
+  }
+}

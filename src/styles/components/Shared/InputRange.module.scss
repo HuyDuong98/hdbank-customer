@@ -1,0 +1,56 @@
+.boxRange {
+  position: relative;
+  input[type='range'] {
+    -webkit-appearance: none;
+    margin-right: 15px;
+    width: 70%;
+    height: 7px;
+    background: #e0e0e0;
+    border-radius: 5px;
+    background-image: linear-gradient(#da2128, #da2128);
+    background-repeat: no-repeat;
+  }
+
+  input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    background: #da2128;
+    cursor: ew-resize;
+    box-shadow: 0 0 2px 0 #555;
+    transition: all 0.3s ease-in-out;
+  }
+
+  input[type='range']::-webkit-slider-runnable-track {
+    -webkit-appearance: none;
+    box-shadow: none;
+    background: transparent;
+    border-radius: 10px;
+  }
+}
+.rangeValue {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 70%;
+}
+.value {
+  position: absolute;
+  top: -40px;
+  padding: 7px 15px;
+  background-color: #da2128;
+  color: #fff;
+  border-radius: 10px;
+}
+.optionRange {
+  padding: 7px 15px;
+  border-radius: 7px;
+  border: 1px solid rgba(#000, 0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  &:hover {
+    border-color: #da2128;
+    color: #da2128;
+  }
+}

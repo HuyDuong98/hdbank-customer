@@ -1,0 +1,40 @@
+@import "../../common/_colours.scss";
+
+.container {
+  & > svg {
+    &:first-child {
+      cursor: pointer;
+    }
+  }
+  padding-top: 2rem;
+  .headingBar {
+    width: 0.25rem;
+    height: 1.5625rem;
+    background-color: $app--primary--02;
+    margin-right: 0.5rem;
+  }
+
+  span {
+    &.active {
+      color: $app--black;
+    }
+    &.cursor {
+      cursor: pointer;
+    }
+  }
+
+  .breadcrumbIcon {
+    color: $app--bg--01;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+
+  .breadcrumbIconInHome {
+    color: $app--bg--01;
+    margin: 0 1rem;
+  }
+
+  .rootseparator {
+    padding-top: 0.063rem;
+  }
+}

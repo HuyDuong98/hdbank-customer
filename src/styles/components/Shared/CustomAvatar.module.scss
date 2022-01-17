@@ -1,0 +1,48 @@
+@import '../../common/_colours.scss';
+
+@mixin avatarBorder {
+  background: $app--white;
+  border-radius: 50%;
+  border: 0.125rem solid $app--primary--01;
+}
+
+.container {
+  &.large {
+    width: 7.6875rem;
+    height: 7.6875rem;
+    padding: 0.125rem;
+
+    @include avatarBorder;
+
+    .avatar {
+      width: 7.1875rem;
+      height: 7.1875rem;
+    }
+  }
+
+  &.medium {
+    width: 5.5rem;
+    height: 5.5rem;
+    padding: 0.125rem;
+
+    @include avatarBorder;
+
+    .avatar {
+      width: 5rem;
+      height: 5rem;
+    }
+  }
+
+  &.small {
+    width: 3rem;
+    height: 3rem;
+    padding: 0.125rem;
+
+    @include avatarBorder;
+
+    .avatar {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+  }
+}

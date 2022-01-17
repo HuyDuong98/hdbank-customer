@@ -1,0 +1,141 @@
+@import '../../common/_colours.scss';
+@import '../../common/screen_size';
+
+.footer {
+  border-top: 0.0625rem solid $app--bg--01;
+
+  @media (max-width: $sm) {
+    background-color: $app--bg--03;
+  }
+
+  .container {
+    width: 100%;
+    margin: auto;
+    padding: 0 1.5625rem;
+
+    @media (max-width: $sm) {
+      text-align: center;
+    }
+    .logo {
+      padding: 2rem 0;
+    }
+
+    .infoWrap {
+      .contact {
+        margin-bottom: 1rem;
+      }
+
+      .quickLink {
+        margin-top: 1rem;
+        span {
+          font-weight: 700;
+          margin-right: 2.5rem;
+          cursor: pointer;
+
+          &:last-of-type {
+            margin-right: 0;
+          }
+        }
+      }
+
+      .bold {
+        font-weight: 700;
+      }
+    }
+
+    .padding {
+      display: block;
+      padding: 0.5rem 0;
+    }
+
+    .socialWrap {
+      @media (max-width: $md) {
+        margin-top: 3rem;
+      }
+
+      .iconWrapper {
+        margin-top: 1rem;
+
+        img {
+          &:not(:last-child) {
+            margin-right: 1rem;
+          }
+        }
+
+        .socialIcon {
+          margin: 0.5rem 0;
+        }
+
+        .btnApp {
+          border: 1px solid $app--bg--01;
+          border-radius: 50%;
+
+          margin: 0.5rem 0;
+
+          min-width: fit-content;
+
+          img {
+            width: 1.6rem;
+            height: 1.6rem;
+          }
+
+          &:first-of-type {
+            margin-right: 1rem;
+          }
+        }
+      }
+
+      .languageWrap {
+        display: flex;
+        width: fit-content;
+        margin-top: 1rem;
+        img {
+          margin-right: 0.3rem;
+          margin-top: 0.2rem;
+        }
+      }
+    }
+
+    .iconWrapper {
+      @media (max-width: $sm) {
+        max-width: 14rem;
+        margin: auto;
+        margin-top: 1rem;
+      }
+    }
+
+    hr {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+  }
+
+  .copyright {
+    height: 3.25rem;
+    background-color: $app--white;
+    border-top: 1px solid $app--bg--01;
+    bottom: 0;
+
+    margin-top: 2rem;
+    padding: 0.75rem 0;
+
+    span {
+      color: rgba($color: $app--black, $alpha: 0.5);
+      line-height: 1.5625rem;
+      font-weight: 500;
+    }
+  }
+}
+
+.languageItem {
+  display: flex;
+  align-items: center;
+
+  background: red;
+  color: red;
+
+  img {
+    margin-right: 0.3rem;
+    margin-top: 0.3rem;
+  }
+}

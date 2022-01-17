@@ -1,0 +1,187 @@
+@import "../../common/_colours.scss";
+@import "../../common/screen_size";
+
+.container {
+  position: fixed;
+  top: 0;
+  height: 4.375rem;
+  background: $app--white;
+  border-bottom: 0.0625rem solid $app--bg--01;
+  z-index: 99;
+  padding: 0 1.5625rem;
+  align-items: center;
+  display: flex;
+
+  .menuWrapper {
+    height: 100%;
+
+    .logo {
+      padding: 0;
+      img {
+        width: 8.125rem;
+      }
+    }
+
+    a {
+      text-decoration: none;
+      font-weight: 700;
+      color: $app--black;
+      font-size: 1rem;
+      padding: 1rem;
+    }
+
+    @media (max-width: $lg) {
+      &:first-of-type {
+        margin-left: 2rem;
+      }
+    }
+  }
+
+  .profileWrapper {
+    height: 100%;
+    .groButton {
+      a {
+        color: $app--primary--01;
+        font-weight: 400;
+        font-size: 1;
+        margin-left: 1rem;
+        text-decoration: none;
+      }
+    }
+    .login {
+      color: $app--primary--01;
+      font-weight: 400;
+      font-size: 1;
+      margin-left: 1rem;
+      text-decoration: none;
+    }
+
+    .searchIcon {
+      font-size: 2rem;
+      color: rgba($color: $app--black, $alpha: 0.5);
+      cursor: pointer;
+    }
+
+    .borderRound {
+      border-radius: 50%;
+    }
+
+    .rightItem {
+      margin-left: 1rem;
+      a {
+        color: $app--white;
+        text-decoration: none;
+      }
+    }
+
+    .avatar {
+      width: 2.8rem;
+      height: 2.8rem;
+      margin-left: 1rem;
+    }
+  }
+}
+.boxSuggest {
+  position: absolute;
+  width: 28.5rem;
+  min-height: 18.75rem;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  @media (max-width: $sm) {
+    position: relative;
+    width: 100%;
+  }
+}
+.suggetItem {
+  padding: 5px 7px;
+  z-index: 0;
+  border-radius: 15px;
+  background-color: rgba(#da2128, 0.1);
+  color: #da2128;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  &:hover {
+    background-color: #da2128;
+    color: #fff;
+  }
+}
+.overlay {
+  background-color: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  left: 0;
+  top: 4.375rem;
+}
+.headerMobile {
+  @extend .container;
+  padding: 0 1rem;
+  width: 100%;
+  .wrapper {
+    height: 100%;
+  }
+}
+.searchBox > div > div {
+  border-radius: 8rem;
+}
+
+.popperMenu {
+  z-index: 10;
+  .menuWrapper {
+    width: 100vw;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: $app--white;
+
+    .login {
+      background-color: $app--bg--01;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      button {
+        min-width: 10rem;
+        font-size: 0.875rem;
+      }
+    }
+
+    .selected {
+      color: $app--primary--01;
+
+      svg {
+        path {
+          fill: $app--primary--01;
+        }
+      }
+    }
+
+    .listMenu {
+      padding-left: 1rem;
+      padding-right: 1rem;
+
+      .listItem {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+      }
+
+      a {
+        color: $app--black;
+        text-decoration: none;
+
+        // &.selected {
+        //   color: $app--primary--01;
+        // }
+
+        &[aria-current="page"] {
+          color: $app--primary--01;
+
+          svg {
+            path {
+              fill: $app--primary--01;
+            }
+          }
+        }
+      }
+    }
+  }
+}

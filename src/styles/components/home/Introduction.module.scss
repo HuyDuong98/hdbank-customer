@@ -1,0 +1,282 @@
+@import "../../common/colours";
+@import "../../common/screen_size";
+
+@font-face {
+  font-family: friends;
+  src: url("/assets/fonts/SVN-FRIENDSFOREVER.OTF");
+}
+
+.container {
+  padding: 0 1rem;
+}
+
+.introduceWrap {
+  height: calc(100vh - 4.375rem);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+
+  @media (max-width: $sm) {
+    height: unset;
+  }
+
+  .imgDiv {
+    height: 48rem;
+    width: 80%;
+    margin: auto;
+
+    //responesive HEIGHT
+    @media (max-height: 800px) {
+      max-height: 38rem;
+    }
+
+    @media (max-height: 650px) {
+      max-height: 36rem;
+    }
+
+    @media (max-height: 600px) {
+      max-height: 34rem;
+    }
+    //responesive HEIGHT
+
+    @media (max-width: $xl) {
+      width: 90%;
+      height: 44rem;
+    }
+
+    @media (max-width: $md) {
+      width: 90%;
+      height: 42rem;
+    }
+
+    @media (max-width: $sm) {
+      height: unset;
+    }
+
+    img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+
+  .imgWrap {
+    width: 50%;
+
+    @media (max-width: $md) {
+      width: 60%;
+      margin: 0 auto;
+    }
+
+    @media (max-width: $sm) {
+      width: 70%;
+      margin: 0 auto;
+    }
+
+    @media (max-width: $xs) {
+      width: 100%;
+      margin: 0 auto;
+    }
+  }
+
+  .textWrap {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    @media (max-width: $md) {
+      width: 50%;
+      margin: 0 auto;
+    }
+
+    @media (max-width: $sm) {
+      width: 85%;
+      height: fit-content;
+      margin: 0 auto;
+      margin-top: 2rem;
+
+      text-align: center;
+    }
+  }
+
+  .rightWrap {
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+  }
+
+  .highlight {
+    font-size: 4rem;
+    padding: 1rem 0;
+    font-family: friends;
+    color: $app--primary--01;
+
+    @media (max-width: $lg) {
+      font-size: 3rem;
+    }
+
+    @media (max-width: $md) {
+      font-size: 2.5rem;
+    }
+
+    @media (max-width: $sm) {
+      font-size: 2rem;
+      text-align: center;
+    }
+  }
+
+  .form {
+    margin: 1rem 0;
+
+    @media (max-width: $sm) {
+      width: 70%;
+      margin: 0 auto;
+    }
+
+    @media (max-width: $xs) {
+      width: 100%;
+    }
+  }
+
+  .haveAccount {
+    margin-top: 1rem;
+
+    .link {
+      font-weight: 700;
+      color: $app--primary--01;
+
+      cursor: pointer;
+    }
+
+    @media (max-width: $sm) {
+      justify-content: center;
+    }
+  }
+
+  // img {
+  //   width: 100%;
+  //   min-height: 46.875rem;
+
+  //   @media (max-width: $sm) {
+  //     min-height: unset;
+  //   }
+  // }
+
+  .btnDiv {
+    @media (max-width: $sm) {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: $sm) {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+
+  @media (max-width: $sm) {
+    margin-top: 0;
+  }
+}
+
+//common
+.headingWrap {
+  text-align: center;
+  position: relative;
+
+  .title {
+    padding-bottom: 0.5rem;
+
+    h5 {
+      font-weight: 700;
+    }
+
+    h3 {
+      font-weight: 700;
+      text-align: left;
+
+      @media (max-width: $lg) {
+        font-size: 2rem;
+      }
+
+      @media (max-width: $md) {
+        font-size: 1.8rem;
+      }
+
+      @media (max-width: $sm) {
+        font-size: 1.5rem;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: $sm) {
+      font-size: 0.875rem;
+      text-align: center;
+
+      padding: 1rem 0;
+    }
+  }
+
+  .sub {
+    margin: 1.5rem 0;
+    text-align: left;
+    span {
+      font-size: 1rem;
+      padding-bottom: 0.5rem;
+
+      &:last-of-type {
+        padding-bottom: 0;
+      }
+    }
+
+    @media (max-width: $sm) {
+      font-size: 0.875rem;
+      text-align: center;
+
+      margin: 0;
+    }
+  }
+}
+
+.icon {
+  position: absolute;
+  top: -1.125rem;
+  left: 50%;
+  transform: translateX(-50%);
+
+  box-shadow: 0 0 0.75rem -0.313rem $app--black;
+
+  width: 2rem;
+  height: 2rem;
+
+  background: $app--white;
+
+  border-radius: 50%;
+  text-align: center;
+
+  svg {
+    color: $app--primary--01;
+    font-size: 1.2rem;
+    margin-top: 0.375rem;
+  }
+}
+
+.textFieldWrapper {
+  padding-bottom: 1rem;
+
+  min-width: 15.5rem;
+  margin-right: 1.5rem;
+
+  @media (max-width: $sm) {
+    width: 100%;
+    margin-right: 0;
+  }
+
+  input {
+    text-align: center;
+  }
+}
+
+.mobileBtn {
+  border-radius: 2.5rem !important;
+}

@@ -1,0 +1,223 @@
+@import "../../common/colours";
+@import "../../common/screen_size";
+
+.container {
+  padding: 0 1rem;
+}
+
+.contactWrap {
+  position: relative;
+  background-color: $app--bg--04;
+
+  padding: 3.5rem 2.5rem;
+
+  .textWrap {
+    width: 80%;
+
+    @media (max-width: $md) {
+      margin: auto;
+    }
+
+    .titleWrap {
+      @media (max-width: $md) {
+        align-items: center;
+        text-align: center;
+      }
+
+      h3 {
+        font-weight: 700;
+        padding-bottom: 0.5rem;
+
+        @media (max-width: $lg) {
+          font-size: 2rem;
+        }
+
+        @media (max-width: $md) {
+          font-size: 1.8rem;
+        }
+
+        @media (max-width: $xs) {
+          font-size: 1.5rem;
+        }
+      }
+
+      hr {
+        width: 3rem;
+        height: 0.083rem;
+        background: $app--black;
+
+        margin: 1rem 0;
+      }
+
+      .subText {
+        padding: 0.5rem 0;
+      }
+    }
+
+    .infoWrap {
+      padding-top: 2rem;
+
+      @media (max-width: $md) {
+        display: none;
+      }
+
+      .infoItem {
+        padding: 0.5rem 0;
+        flex-wrap: nowrap;
+        column-gap: 0.5rem;
+        align-items: center;
+        svg {
+          margin-right: 0.7rem;
+
+          path {
+            fill: $app--black;
+          }
+        }
+      }
+    }
+  }
+
+  .formWrap {
+    .imgCapcha {
+      padding-left: 1rem;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .btnCapcha {
+      border-radius: 50%;
+    }
+
+    .btn {
+      text-align: center;
+      width: 100%;
+      margin-top: 1.5rem;
+
+      button {
+        width: 50%;
+
+        @media (max-width: $xs) {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  .statusWrap {
+    text-align: center;
+    width: 60%;
+    margin: auto;
+
+    @media (max-width: $md) {
+      padding: 1.5rem 0;
+    }
+
+    .iconStatus {
+      svg {
+        circle {
+          fill: $app--bg--04;
+        }
+      }
+    }
+
+    .iconFailure {
+      @extend .iconStatus;
+
+      @media (min-width: $md) {
+        path,
+        rect {
+          fill: $app--primary--01;
+        }
+
+        circle {
+          stroke: $app--primary--01;
+        }
+      }
+    }
+
+    .iconSuccess {
+      @extend .iconStatus;
+    }
+
+    .successTitle {
+      color: $app--complementary--01;
+      padding-bottom: 1.5rem;
+      font-weight: 600;
+    }
+
+    .failureTitle {
+      color: $app--primary--01;
+      padding-bottom: 1.5rem;
+      font-weight: 600;
+
+      @media (max-width: $md) {
+        color: $app--primary--02;
+      }
+    }
+
+    .btn {
+      margin-top: 2rem;
+
+      button {
+        @media (max-width: $md) {
+          background: $app--primary--02;
+        }
+      }
+    }
+  }
+}
+
+.icon {
+  position: absolute;
+  top: -1.125rem;
+  left: 50%;
+  transform: translateX(-50%);
+
+  box-shadow: 0 0 0.75rem -0.313rem $app--black;
+
+  width: 2rem;
+  height: 2rem;
+
+  background: $app--white;
+
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  text-align: center;
+
+  img {
+    width: 1.5rem;
+  }
+}
+
+// //common
+// .headingWrap {
+//   text-align: center;
+//   position: relative;
+
+//   .title {
+//     padding-bottom: 0.5rem;
+
+//     @media (max-width: $sm) {
+//       font-size: 0.875rem;
+//       text-align: center;
+
+//       padding: 1rem 0;
+//     }
+//   }
+
+//   span {
+//     font-size: 1rem;
+//   }
+
+//   @media (max-width: $sm) {
+//     font-size: 0.875rem;
+//   }
+// }
+
+// .mobileBtn {
+//   border-radius: 2.5rem !important;
+// }
