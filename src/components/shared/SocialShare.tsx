@@ -1,41 +1,51 @@
-import { Box, Grid, Typography } from '@material-ui/core'
-import { FC, useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import Style from '../../styles/components/shared/SocialShare.module.scss'
-import { FacebookShareButton, LinkedinShareButton, TwitterShareButton, TelegramShareButton } from 'react-share'
-const FBIcon = '/assets/socials/facebook.png'
-const ZaloIcon = '/assets/socials/zalo_40x40.png'
-const LinkedIcon = '/assets/socials/LinkedIn.png'
-const TWIcon = '/assets/socials/Twitter.png'
-const TeleIcon = '/assets/socials/Telegram.png'
+import { Box, Grid, Typography } from "@material-ui/core";
+import { FC, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import Style from "../../styles/components/shared/SocialShare.module.scss";
+import {
+  FacebookShareButton,
+  LinkedinShareButton,
+  TwitterShareButton,
+  TelegramShareButton,
+} from "react-share";
+const FBIcon = "/assets/socials/facebook.png";
+const ZaloIcon = "/assets/socials/zalo_40x40.png";
+const LinkedIcon = "/assets/socials/LinkedIn.png";
+const TWIcon = "/assets/socials/Twitter.png";
+const TeleIcon = "/assets/socials/Telegram.png";
 
 const SocialShare: FC = () => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   const [windowHref, setWindowHref] = useState("#");
 
   useEffect(() => {
-    // const script = document.createElement('script')
-    // script.src = 'https://sp.zalo.me/plugins/sdk.js'
-    // script.async = true
+    const script = document.createElement("script");
+    script.src = "https://sp.zalo.me/plugins/sdk.js";
+    script.async = true;
 
-    // document.body.appendChild(script)
+    document.body.appendChild(script);
 
-    // return () => {
-    //   document.body.removeChild(script)
-    // }
     setWindowHref(window.location.href);
-  }, [])
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   return (
     <Grid container>
       <Grid item>
         <Box mb={1}>
           <Typography>
-            <strong>{t('share')}</strong>
+            <strong>{t("share")}</strong>
           </Typography>
         </Box>
 
-        <Grid container justifyContent="space-between" spacing={2} className={Style.social}>
+        <Grid
+          container
+          justifyContent="space-between"
+          spacing={2}
+          className={Style.social}
+        >
           <Grid item>
             <a href="/" target="_blank">
               <FacebookShareButton url={windowHref}>
@@ -72,7 +82,7 @@ const SocialShare: FC = () => {
         </Grid>
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
-export default SocialShare
+export default SocialShare;

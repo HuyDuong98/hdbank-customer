@@ -2,23 +2,33 @@ import { FC, useEffect, useState } from 'react'
 import Style from '../../styles/faq/ListFAQ.module.scss'
 import { Box, Button, Container, Grid, Typography } from '@material-ui/core'
 import { useTranslation } from 'react-i18next'
+import { useRecoilValue } from 'recoil'
+import { useQuery } from 'react-query'
+import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft'
+import { IFAQListModal, IFAQDetail } from '../../models/IFAQ'
+import clsx from 'clsx'
+
+//component
+import FAQItem from './FAQItem'
 import PageHeading from '../shared/PageHeading'
 import CustomTextField from '../shared/CustomTextField'
-
 import DialogSendQuestion from './DialogSendQuestion'
+import PageTitle from '@components/shared/PageTitle'
+
+//utils
+import { convertValueSearch } from '../../utils/helpers/commonHelpers'
+
+//apis
+import { getListFaq } from '../../apis/faq'
+
+//stores
+import { isMobileState } from '../../stores/sharedStores'
 
 //icons
 import SearchIcon from '@material-ui/icons/Search'
-import FAQItem from './FAQItem'
-import { useRecoilValue } from 'recoil'
-import { isMobileState } from '../../stores/sharedStores'
-import { useQuery } from 'react-query'
-import { getListFaq } from '../../apis/faq'
-import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft'
-import { IFAQListModal, IFAQDetail } from '../../models/IFAQ'
+
+//images
 const SendQuestionIcon = '/assets/icons/ic_send_question.svg'
-import clsx from 'clsx'
-import { convertValueSearch } from '../../utils/helpers/commonHelpers'
 
 const FAQList: FC = () => {
   const { t, i18n } = useTranslation()
@@ -131,11 +141,11 @@ const FAQList: FC = () => {
             <Typography>{topic}</Typography>
           </div>
         )}
-        { }
-        {listQuestion &&
-          listQuestion.map((item) => (
-            <FAQItem key={item.id} question={item.question_title} content={item.description} />
-          ))}
+        <FAQItem questions={listQuestion} />
+        {/* {listQuestion &&
+          listQuestion.map((item, index) => (
+            <FAQItem key={item.id} question={item.question_title} content={item.description} index={index} />
+          ))} */}
       </div>
     )
   }
@@ -159,10 +169,14 @@ const FAQList: FC = () => {
         <Box className={Style.header}>
           <Container className={Style.faqWrapper}>
             <Box>
-              <Grid className={Style.pageTitle}>
-                <Typography variant="h2">{t('howCanWeHelpYou')}</Typography>
-              </Grid>
-              <Button variant="contained" color="primary" startIcon={<img src={SendQuestionIcon} />} onClick={handleDialog}>
+              <PageTitle title={t('howCanWeHelpYou')} />
+
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<img src={SendQuestionIcon} />}
+                onClick={handleDialog}
+              >
                 {t('submitAQuestion')}
               </Button>
             </Box>

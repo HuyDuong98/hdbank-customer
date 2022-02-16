@@ -1,19 +1,24 @@
-import { Box, Container, Grid, Typography, useMediaQuery } from '@material-ui/core'
+import { Box, Container, Grid, useMediaQuery } from '@material-ui/core'
 import { FC, useState, useEffect } from 'react'
 import Style from '@styles/news/News.module.scss'
-import PageHeading from '../../components/shared/PageHeading'
-import Tabs from '../../components/shared/Tabs'
 import { useTranslation } from 'react-i18next'
-import { isMobileState } from '../../stores/sharedStores'
 import { useRecoilValue } from 'recoil'
 import { createTheme } from '@material-ui/core/styles'
-import { getAllNews, getFilterNews, getNewsByCate } from '../../apis/landing-page/news'
 import { useQuery } from 'react-query'
 
 //components
 import AllNews from '../../components/news/AllNews'
 import NewsByCate from '../../components/news/NewsByCate'
 import CustomPagination from '../../components/shared/CustomPagination'
+import PageTitle from '@components/shared/PageTitle'
+import PageHeading from '../../components/shared/PageHeading'
+import Tabs from '../../components/shared/Tabs'
+
+//apis
+import { getAllNews, getFilterNews, getNewsByCate } from '../../apis/landing-page/news'
+
+//stores
+import { isMobileState } from '../../stores/sharedStores'
 
 const lstBreadCrumb = [{ label: 'news' }]
 
@@ -120,7 +125,7 @@ const NewsPage: FC = () => {
       setAllNews(allNewsData)
     } else {
       if (allNewsData.listNews.length > 0) {
-        const temp = allNewsData.listNews.shift()
+        const temp = allNewsData?.listNews.shift()
         setNewsByCate({
           ...allNewsData,
           listNews: allNewsData.listNews,
@@ -133,8 +138,8 @@ const NewsPage: FC = () => {
   }, [allNewsData])
 
   useEffect(() => {
-    if (!filterNewsData) return
-    const temp = filterNewsData.map((data) => {
+    if (!filterNewsData || filterNewsData.length === 0) return
+    const temp = filterNewsData?.map((data) => {
       return {
         label: data.item,
         value: data.value,
@@ -153,7 +158,6 @@ const NewsPage: FC = () => {
         page: 1,
       }))
     }
-
     setType(value)
   }
 
@@ -173,7 +177,7 @@ const NewsPage: FC = () => {
   }
 
   const renderAllNews = () => {
-    return <AllNews {...allNews} isXsSize={isXsSize} />
+    return <AllNews {...allNews} isXsSize={isXsSize} handleTitleEvent={(value) => handleTab(value)} />
   }
 
   const renderNewsByCate = () => {
@@ -205,23 +209,23 @@ const NewsPage: FC = () => {
   if (isLoading) return <></>
 
   return (
-    <Container >
-      <Grid className={Style.newsPageWrap}>
-        {!isMobile &&
+    <Container>
+      <Grid>
+        {!isMobile && (
           <Grid>
             <PageHeading breadCrumbs={lstBreadCrumb} iconHome />
           </Grid>
-        }
+        )}
 
-        <Box mt={3} mb={3}>
-          <Typography variant="h1">{t('news')}</Typography>
-        </Box>
+        <Grid className={Style.newsPageWrap}>
+          <PageTitle title={t('news')} />
 
-        <Tabs tabs={filter} value={type} onChange={(path) => handleTab(path)} />
+          <Tabs tabs={filter} value={type} onChange={(path) => handleTab(path)} />
 
-        <Grid>{isAllNews ? renderAllNews() : renderNewsByCate()}</Grid>
+          <Grid>{isAllNews ? renderAllNews() : renderNewsByCate()}</Grid>
 
-        {!isAllNews && newsByCate.listNews.length > 0 && renderPagination()}
+          {!isAllNews && newsByCate?.listNews.length > 0 && renderPagination()}
+        </Grid>
       </Grid>
     </Container>
   )

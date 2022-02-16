@@ -4,9 +4,10 @@ import { Grid, Typography, Breadcrumbs } from '@material-ui/core'
 import clsx from 'clsx'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext'
 import { useTranslation } from 'react-i18next'
-import HomeIcon from '@assets/icons/ic_home.svg'
 import { useRouter } from 'next/router'
 import { pagePath } from '../../utils/constants/pagePath'
+
+const HomeIcon = '/assets/icons/ic_home.svg'
 
 interface IBreadCrumb {
   label: string
@@ -34,8 +35,7 @@ const PageHeading: FC<IHeadingProps> = ({ breadCrumbs, iconHome = false }) => {
     <Grid container className={Style.container} alignItems="center">
       {iconHome ? (
         <>
-          <HomeIcon onClick={handleBackHome} />
-          {/* <img src={HomeIcon} onClick={handleBackHome} /> */}
+          <img src={HomeIcon} onClick={handleBackHome} className={Style.homeIcon} />
           <NavigateNextIcon fontSize="small" className={Style.breadcrumbIconInHome} />
         </>
       ) : (

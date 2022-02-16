@@ -1,12 +1,17 @@
-@import "../../common/_colours.scss";
+@import '../../common/_colours.scss';
 
 .container {
+  .homeIcon {
+    width: 1.125rem;
+  }
+
   & > svg {
     &:first-child {
       cursor: pointer;
     }
   }
-  padding-top: 2rem;
+
+  padding-top: 2.75rem;
   .headingBar {
     width: 0.25rem;
     height: 1.5625rem;

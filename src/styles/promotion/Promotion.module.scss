@@ -1,14 +1,5 @@
-@import '../common/screen_size';
+@import "../common/screen_size";
 .promotionWrapper {
-  h1 {
-    font-size: 3rem;
-    font-weight: bold;
-    @media (max-width: $sm) {
-      font-size: 1.5rem;
-      padding-top: 1.5rem;
-    }
-  }
-
   .pagination {
     margin-top: 1.5rem;
     ul {

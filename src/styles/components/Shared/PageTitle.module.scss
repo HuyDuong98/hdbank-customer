@@ -1,0 +1,17 @@
+@import "../../common/colours";
+@import "../../common/screen_size";
+@import "../../common/font";
+
+.pageTitleWrap {
+  h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    padding: 1.5rem 0;
+    @media (max-width: $sm) {
+      font-size: 2rem;
+    }
+    @media (max-width: $xxs) {
+      font-size: 1.5rem;
+    }
+  }
+}

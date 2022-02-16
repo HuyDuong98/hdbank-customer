@@ -1,61 +1,54 @@
-import { Box, Container, Grid, Typography } from "@material-ui/core";
-import { FC, useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import { useRecoilValue } from "recoil";
-import PageHeading from "../../components/Shared/PageHeading";
-import { isMobileState } from "../../stores/sharedStores";
-import Style from "../../styles/feedback/Feedback.module.scss";
-import Img02 from "@assets/images/feedback02.png";
+import { Box, Container, Grid, Typography } from '@material-ui/core'
+import { FC, useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useRecoilValue } from 'recoil'
+import PageHeading from '../../components/shared/PageHeading'
+import { isMobileState } from '../../stores/sharedStores'
+import Style from '../../styles/feedback/Feedback.module.scss'
+import Img02 from '@assets/images/feedback02.png'
 // import FormFeedback from '../../components/LandingPage/Feedback/FormFeedback'
 // import FeedbackItem from '../../components/LandingPage/Feedback/FeedbackItem'
-import { useQuery } from "react-query";
-import {
-  getBannerFeedback,
-  getFeedbacks,
-} from "../../apis/landing-page/feedback";
-import CustomPagination from "../../components/Shared/CustomPagination";
-import FormFeedback from "../../components/feedback/FormFeedback";
-import FeedbackItem from "../../components/feedback/FeedbackItem";
+import { useQuery } from 'react-query'
+import { getBannerFeedback, getFeedbacks } from '../../apis/landing-page/feedback'
+import CustomPagination from '../../components/shared/CustomPagination'
+import FormFeedback from '../../components/feedback/FormFeedback'
+import FeedbackItem from '../../components/feedback/FeedbackItem'
 const lstOption = [
   { value: 10, name: 10 },
   { value: 15, name: 15 },
   { value: 20, name: 20 },
   { value: 25, name: 25 },
-];
+]
 const Feedback: FC = () => {
-  const { t } = useTranslation();
-  const isMobile = useRecoilValue(isMobileState);
-  const lstBreadCrumb = [{ label: t("consumerOpinion") }];
-  const [pageNumber, setPageNumber] = useState(1);
-  const [totalRecord, setTotalRecord] = useState(0);
-  const [countPage, setCountPage] = useState(10);
+  const { t } = useTranslation()
+  const isMobile = useRecoilValue(isMobileState)
+  const lstBreadCrumb = [{ label: t('consumerOpinion') }]
+  const [pageNumber, setPageNumber] = useState(1)
+  const [totalRecord, setTotalRecord] = useState(0)
+  const [countPage, setCountPage] = useState(10)
 
-  const handleChangePageSize = (_, page) => setPageNumber(page);
+  const handleChangePageSize = (_, page) => setPageNumber(page)
 
   const handleCountPage = (value) => {
-    setPageNumber(1);
-    setCountPage(value);
-  };
+    setPageNumber(1)
+    setCountPage(value)
+  }
 
-  const { data } = useQuery(["getFeedbacksQuery", pageNumber, countPage], () =>
-    getFeedbacks(pageNumber, countPage)
-  );
+  const { data } = useQuery(['getFeedbacksQuery', pageNumber, countPage], () => getFeedbacks(pageNumber, countPage))
 
-  const { data: banner } = useQuery("bannerFeedbackQuery", getBannerFeedback);
+  const { data: banner } = useQuery('bannerFeedbackQuery', getBannerFeedback)
 
   useEffect(() => {
     if (data) {
-      setTotalRecord(data.total_record);
+      setTotalRecord(data.total_record)
     }
-  }, [data]);
+  }, [data])
   return (
     <>
       <Container className={Style.feedbackWrapper}>
         {!isMobile && <PageHeading breadCrumbs={lstBreadCrumb} iconHome />}
         <Box mt={2} mb={2}>
-          <Typography variant="h1">
-            {t("whatCustomersSayAboutHDBank")}
-          </Typography>
+          <Typography variant="h1">{t('whatCustomersSayAboutHDBank')}</Typography>
         </Box>
         <Grid container className={Style.introWrapper}>
           <Grid item md={6} xs={12}>
@@ -69,9 +62,7 @@ const Feedback: FC = () => {
                   12.000
                 </Typography>
                 <Box mt={2}>
-                  <Typography variant="h4">
-                    {t("positiveCustomerReviews")}
-                  </Typography>
+                  <Typography variant="h4">{t('positiveCustomerReviews')}</Typography>
                 </Box>
               </Box>
             </Box>
@@ -80,7 +71,7 @@ const Feedback: FC = () => {
         <Grid container spacing={6} className={Style.formWrapper}>
           <Grid item md={7} xs={12}>
             <Box display="flex" alignItems="center" height="100%">
-              <Typography variant="h3">{t("HDBankAlwaysListens")}</Typography>
+              <Typography variant="h3">{t('HDBankAlwaysListens')}</Typography>
             </Box>
           </Grid>
           <Grid item md={5} xs={12}>
@@ -92,13 +83,12 @@ const Feedback: FC = () => {
         <Container>
           <Grid container>
             <Grid item md={4}>
-              <img src={Img02} alt="" />
+              <img src="@assets/images/feedback02.png" alt="" />
             </Grid>
             <Grid item md={8}>
               <Box className={Style.slogan}>
                 <Typography>
-                  <Typography color="primary">HD</Typography>Bank{" "}
-                  {t("appreciatesEveryFeedback")}
+                  <Typography color="primary">HD</Typography>Bank {t('appreciatesEveryFeedback')}
                 </Typography>
               </Box>
             </Grid>
@@ -130,6 +120,6 @@ const Feedback: FC = () => {
         </Container>
       </Box>
     </>
-  );
-};
-export default Feedback;
+  )
+}
+export default Feedback

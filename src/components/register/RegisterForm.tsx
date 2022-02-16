@@ -8,7 +8,7 @@ import RegisterStepper from './RegisterStepper'
 import RegisterCompleted from './RegisterCompleted'
 import CustomerInfo from './CustomerInfo'
 import LoginAccount from './LoginAccount'
-import VerifyOTP from '../../components/OTP/VerifyOTP'
+import VerifyOTP from '../../components/otp/VerifyOTP'
 
 const lstStep = [
   {

@@ -1,6 +1,5 @@
 import { Box, Grid, Typography } from '@material-ui/core'
 import { FC } from 'react'
-import { useTranslation } from 'react-i18next'
 import Style from '../../styles/components/CardPromotionOther.module.scss'
 
 interface ICardPromotionOther {
@@ -14,7 +13,6 @@ interface ICardPromotionOther {
 
 const CardPromotionOther: FC<ICardPromotionOther> = (props) => {
   const { image, title, content, startDate, endDate, label } = props
-  const { t } = useTranslation()
   return (
     <>
       <Box className={Style.cardPromotion}>

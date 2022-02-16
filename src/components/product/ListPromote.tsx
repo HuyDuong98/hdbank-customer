@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import { Grid, Typography, IconButton } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import Style from "../../styles/product/ProductDetail.module.scss";
@@ -8,12 +8,13 @@ import Link from "next/link";
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-
+import SwiperCore, { Autoplay, Navigation } from 'swiper';
 //icons
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { convertUrltoSlug } from "../../utils/helpers/commonHelpers";
 import { pagePath } from "../../utils/constants/pagePath";
+import { TIME_AUTO_PLAY_SLIDE } from "../../utils/constants/variables";
 
 //images
 const PromoteImage = "/assets/mobile/landing/news-page.png";
@@ -35,7 +36,9 @@ const ListPromote: FC<IPromoteProps> = (props) => {
   const { t } = useTranslation();
   const isMobile = useRecoilValue(isMobileState);
   const { lstPromote } = props;
-
+  SwiperCore.use([Autoplay, Navigation]);
+  const navigationPrevRef = React.useRef(null)
+  const navigationNextRef = React.useRef(null)
   return (
     <Grid
       container
@@ -68,12 +71,18 @@ const ListPromote: FC<IPromoteProps> = (props) => {
           navigation={
             !isMobile
               ? {
-                  prevEl: "#navPrevPromote",
-                  nextEl: "#navNextPromote",
-                }
+                prevEl: navigationPrevRef.current,
+                nextEl: navigationNextRef.current,
+              }
               : false
           }
           className={Style.swiperWrap}
+          autoplay={{
+            delay: TIME_AUTO_PLAY_SLIDE,
+            disableOnInteraction: false
+          }}
+          loop={true}
+          loopFillGroupWithBlank={true}
         >
           {lstPromote.map((promote, idx) => {
             const { id, title, content, pc_mode, mobile_mode, finish_date } =
@@ -105,10 +114,10 @@ const ListPromote: FC<IPromoteProps> = (props) => {
 
         {!isMobile && (
           <>
-            <IconButton id="navPrevPromote" className={Style.navPrev}>
+            <IconButton ref={navigationPrevRef} id="navPrevPromote" className={Style.navPrev}>
               <ChevronLeftIcon />
             </IconButton>
-            <IconButton id="navNextPromote" className={Style.navNext}>
+            <IconButton ref={navigationNextRef} id="navNextPromote" className={Style.navNext}>
               <ChevronRightIcon />
             </IconButton>
           </>

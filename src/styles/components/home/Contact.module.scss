@@ -171,14 +171,14 @@
 
 .icon {
   position: absolute;
-  top: -1.125rem;
+  top: -1.5rem;
   left: 50%;
   transform: translateX(-50%);
 
-  box-shadow: 0 0 0.75rem -0.313rem $app--black;
+  box-shadow: 0px 1rem 1.5rem -0.5rem $app--border;
 
-  width: 2rem;
-  height: 2rem;
+  width: 3rem;
+  height: 3rem;
 
   background: $app--white;
 

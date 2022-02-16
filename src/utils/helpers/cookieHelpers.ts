@@ -13,7 +13,12 @@ export const getCookie = (
   cookieString?: string
 ): string | null => {
   const nameEQ = name + "=";
-  const ca = (cookieString || document?.cookie || "").split(";");
+
+  const doc = typeof document !== 'undefined'
+    ? document
+    : { cookie: null };
+
+  const ca = (cookieString || doc.cookie || "").split(";");
   for (const c of ca) {
     let cookie = c;
     while (cookie.charAt(0) === " ") cookie = cookie.substring(1, c.length);

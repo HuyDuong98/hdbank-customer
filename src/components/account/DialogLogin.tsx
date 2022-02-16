@@ -5,6 +5,8 @@ import { useTranslation } from 'react-i18next'
 import Slideshow from './Slideshow'
 import CloseIcon from '@material-ui/icons/Close'
 import { Swiper, SwiperSlide } from 'swiper/react'
+import { TIME_AUTO_PLAY_SLIDE } from '../../utils/constants/variables'
+import SwiperCore, { Autoplay } from 'swiper';
 interface IDialogLoginProps {
   isOpen: boolean
   handleClose: () => void
@@ -15,10 +17,16 @@ const Image = '/assets/banners/banner_alert.png'
 export default function DialogLogin(props: IDialogLoginProps) {
   const { isOpen, handleClose } = props
   const { t } = useTranslation()
+  SwiperCore.use([Autoplay])
   return (
     <Dialog onClose={handleClose} open={isOpen} maxWidth="sm" classes={{ paper: Style.dialogWrapper }}>
       <div className={Style.dialogWrapper__img}>
-        <Swiper pagination={true}>
+        <Swiper pagination={true} autoplay={{
+          delay: TIME_AUTO_PLAY_SLIDE,
+          disableOnInteraction: false
+        }}
+          loop={true}
+          loopFillGroupWithBlank={true} >
           <SwiperSlide>
             <img width="100%" src={Image} />
           </SwiperSlide>

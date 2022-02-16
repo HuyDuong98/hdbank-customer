@@ -1,7 +1,9 @@
-import { requestAccessToken } from './accessTokenHandler'
+import { requestAccessToken, requestCaptchaToken } from './accessTokenHandler'
 // import { createHashHistory } from 'history'
 import { pagePath } from '../constants/pagePath'
 import { IOperationResult } from '../IOperationResult'
+import { useRecoilValue } from 'recoil'
+import { captchaTokenStore } from 'stores/CaptchaStores'
 
 const handleResponse = async (response: Response, method: string) => {
   if (!response.ok) return handleErrorResponse(response, method)
@@ -27,14 +29,14 @@ const handleErrorResponse = async (response: Response, method: string) => {
   // if (isUnauthorizedRequest) hashHistory.push(pagePath.error401)
 
   // if (method !== 'GET') {
-    const error = await response.json()
-    return {
-      isSuccessful: false,
-      responseCode: error.responseCode,
-      responseMessage: error.responseMessage,
-      status: response.status,
-      successData: null,
-    }
+  const error = await response.json()
+  return {
+    isSuccessful: false,
+    responseCode: error.responseCode,
+    responseMessage: error.responseMessage,
+    status: response.status,
+    successData: null,
+  }
   // }
 
   // switch (response.status) {
@@ -52,17 +54,19 @@ const handleErrorResponse = async (response: Response, method: string) => {
   // }
 }
 
-const headersWithToken = (token: string | undefined): HeadersInit => {
+const headersWithToken = (token: string | undefined, captchaToken: string | undefined): HeadersInit => {
   return {
     Authorization: `Bearer ${token}`,
+    'x-g-recaptcha': `${captchaToken}`,
     'Content-Type': 'application/json',
   }
 }
 
 const getAsync = async <TResponse>(apiUrl: string): Promise<TResponse> => {
   const token = await requestAccessToken()
+  const captchaToken = await requestCaptchaToken()
   const response = await fetch(apiUrl, {
-    headers: headersWithToken(token),
+    headers: headersWithToken(token, captchaToken),
   })
 
   return handleResponse(response, 'GET')
@@ -89,8 +93,9 @@ const handleRequestAsync = async <TRequest, TResponse>(
   method: string,
 ): Promise<TResponse> => {
   const token = await requestAccessToken()
+  const captchaToken = await requestCaptchaToken()
   const response = await fetch(apiUrl, {
-    headers: headersWithToken(token),
+    headers: headersWithToken(token, captchaToken),
     method: method,
     body: JSON.stringify(data),
   })

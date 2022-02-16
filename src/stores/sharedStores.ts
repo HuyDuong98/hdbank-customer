@@ -1,30 +1,35 @@
-import { atom } from 'recoil'
+import { atom } from "recoil";
 
 export const sampleState = atom({
-  key: 'sampleState',
+  key: "sampleState",
   default: 1,
-})
+});
 
 export const isMobileState = atom({
-  key: 'isMobileState',
+  key: "isMobileState",
   default: false,
-})
+});
+
+export const isOpenMenu = atom({
+  key: "isOpenMenu",
+  default: false,
+});
 
 export const mobileDevice = atom({
-  key: 'mobileDevice',
+  key: "mobileDevice",
   default: {
     width: 0,
     height: 0,
   },
-})
+});
 
 export const homeContactRef = atom({
-  key: 'homeContactRef',
+  key: "homeContactRef",
   default: <any>{},
   dangerouslyAllowMutability: true,
-})
+});
 
 export const isXsState = atom({
-  key: 'isXsSize',
+  key: "isXsSize",
   default: false,
-})
+});

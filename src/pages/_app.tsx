@@ -12,10 +12,14 @@ import { isMobileState, mobileDevice, isXsState } from '../stores/sharedStores'
 import '../styles/common/App.scss'
 import '../config/i18next'
 import 'swiper/swiper.scss'
-import { polyfill } from 'interweave-ssr';
-
+import { polyfill } from 'interweave-ssr'
 import LayoutLandingPage from '../components/layouts/LayoutLandingPage'
-polyfill();
+import HeadPage from '../components/head'
+import Script from 'next/script'
+import { useTranslation } from 'react-i18next'
+import { getCookie } from '@utils/helpers/cookieHelpers'
+
+polyfill()
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,28 +28,13 @@ const queryClient = new QueryClient({
     },
   },
 })
-const breakpoint = 768;
-const xs = 600;
+const breakpoint = 768
+const xs = 600
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
-      <Head>
-        <meta charSet="utf-8" />
-        <link rel="icon" href="/favicon.ico" />
-        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
-        <meta name="theme-color" content="#000000" />
-        <meta name="description" content="Project Execution Portal" />
-        <link rel="apple-touch-icon" href="/logo192.png" />
-        <link rel="manifest" href="/manifest.json" />
-        <link
-          rel="preload"
-          href="/fonts/SVN-FRIENDSFOREVER.OTF"
-          as="font"
-          crossOrigin=""
-        />
-        <title>HDBank</title>
-      </Head>
+      <HeadPage />
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <QueryClientProvider client={queryClient}>
@@ -59,15 +48,17 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 }
 
 function Wrapper({ Component, pageProps }) {
+  const { i18n } = useTranslation()
   const setIsMobile = useSetRecoilState(isMobileState)
   const setIsXs = useSetRecoilState(isXsState)
   const setMobileDevice = useSetRecoilState(mobileDevice)
+  const language = getCookie('UserLanguage')
 
   useEffect(() => {
-    handleTypeOfDevice();
-
+    i18n.changeLanguage(language || 'vn')
+    handleTypeOfDevice()
     window.addEventListener('resize', () => handleTypeOfDevice())
-    window.removeEventListener('resize', () => handleTypeOfDevice())
+    return () => window.removeEventListener('resize', () => handleTypeOfDevice())
   }, [])
 
   const handleTypeOfDevice = () => {
@@ -84,8 +75,40 @@ function Wrapper({ Component, pageProps }) {
   }
 
   return (
-    <LayoutLandingPage>
-      <Component {...pageProps} />
-    </LayoutLandingPage>
-  );
+    <>
+      <Script
+        dangerouslySetInnerHTML={{
+          __html: `
+                            var chatbox = document.getElementById('fb-customer-chat');
+                            chatbox.setAttribute("page_id", "267351840830499");
+                            chatbox.setAttribute("attribution", "biz_inbox");
+                            `,
+        }}
+      />
+      {/* <!-- Your SDK code --> */}
+      <Script
+        dangerouslySetInnerHTML={{
+          __html: `
+                            window.fbAsyncInit = function () {
+                                FB.init({
+                                    xfbml: true,
+                                    version: 'v12.0'
+                                });
+                            };
+    
+                            (function (d, s, id) {
+                                var js, fjs = d.getElementsByTagName(s)[0];
+                                if (d.getElementById(id)) return;
+                                js = d.createElement(s); js.id = id;
+                                js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+                                fjs.parentNode.insertBefore(js, fjs);
+                            }(document, 'script', 'facebook-jssdk'));
+                            `,
+        }}
+      />
+      <LayoutLandingPage>
+        <Component {...pageProps} />
+      </LayoutLandingPage>
+    </>
+  )
 }

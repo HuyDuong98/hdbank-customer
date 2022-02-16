@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "target": "es5",
+    "baseUrl": "./src",
+    "target": "es6",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -15,24 +15,32 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "noImplicitAny": false,
     "paths": {
       "src/*": ["./src/*"],
-      "@assets/*": ["public/assets/*"],
-      "@components/*": ["src/components/*"],
-      "@models/*": ["src/models/*"],
-      "@pages/*": ["src/pages/*"],
-      "@utils/*": ["src/utils/*"],
-      "@apis/*": ["src/apis/*"],
-      "@styles/*": ["src/styles/*"]
+      "@assets/*": ["./public/assets/*"],
+      "@components/*": ["components/*"],
+      "@models/*": ["models/*"],
+      "@pages/*": ["pages/*"],
+      "@utils/*": ["utils/*"],
+      "@hooks/*": ["hooks/*"],
+      "@configs/*": ["configs/*"],
+      "@apis/*": ["apis/*"],
+      "@styles/*": ["styles/*"]
     }
   },
+  "exclude": ["node_modules", ".next"],
   "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "next.config.js",
+    "custom.d.ts",
     "next-env.d.ts",
     "src/*.ts",
     "src/*.tsx",
     "**/*.js",
     "public/assets/icons/*.tsx",
-    "public/assets/icons/*.svg"
-  ],
-  "exclude": ["node_modules", ".next"]
+    "public/assets/icons/*.svg",
+    "config.json"
+  ]
 }

@@ -1,14 +1,32 @@
-import { Box, Button, Container, Grid, Slider, Typography, withStyles } from '@material-ui/core'
-import { FC, useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import PageHeading from '@components/shared/PageHeading'
-import Style from '@styles/customer-journey/CustomerJourney.module.scss'
-import ProductItem from '@components/product/ProductItem'
-import { useQuery } from 'react-query'
-import { getProductForCustomerJourney, getSelectItemCustomerJourney } from '@apis/landing-page/product'
-import CustomPagination from '@components/shared/CustomPagination'
-import { ICustomNeed } from '@models/ICustomerJourney'
-const IconSliderMoney = '/assets/icons/slider-money.svg'
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  Slider,
+  Typography,
+  withStyles,
+} from "@material-ui/core";
+import { FC, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import Style from "@styles/customer-journey/CustomerJourney.module.scss";
+import { useQuery } from "react-query";
+import { ICustomNeed } from "@models/ICustomerJourney";
+
+//components
+import CustomPagination from "@components/shared/CustomPagination";
+import ProductItem from "@components/product/ProductItem";
+import PageHeading from "@components/shared/PageHeading";
+import PageTitle from "@components/shared/PageTitle";
+
+//apis
+import {
+  getProductForCustomerJourney,
+  getSelectItemCustomerJourney,
+} from "@apis/landing-page/product";
+
+//images
+const IconSliderMoney = "/assets/icons/slider-money.svg";
 
 const lstOption = [
   {
@@ -27,25 +45,25 @@ const lstOption = [
     name: 25,
     value: 25,
   },
-]
+];
 
 const CustomSlider = withStyles({
   root: {
-    padding: '5rem 0 3rem',
+    padding: "5rem 0 3rem",
   },
   markLabel: {
     top: 100,
-    '@media (max-width: 768px)': {
-      fontSize: '0.625rem',
+    "@media (max-width: 768px)": {
+      fontSize: "0.625rem",
       fontWeight: 400,
     },
   },
   mark: {
     width: 12,
     height: 12,
-    borderRadius: '50%',
+    borderRadius: "50%",
     top: 77,
-    '@media (max-width: 768px)': {
+    "@media (max-width: 768px)": {
       top: 79,
       width: 6,
       height: 6,
@@ -53,18 +71,18 @@ const CustomSlider = withStyles({
   },
   markActive: {
     opacity: 1,
-    backgroundColor: '#da2128',
+    backgroundColor: "#da2128",
   },
   track: {
     height: 6,
-    '@media (max-width: 768px)': {
+    "@media (max-width: 768px)": {
       height: 3,
     },
   },
   rail: {
     height: 6,
-    backgroundColor: '#e0e0e0',
-    '@media (max-width: 768px)': {
+    backgroundColor: "#e0e0e0",
+    "@media (max-width: 768px)": {
       height: 3,
     },
   },
@@ -72,49 +90,52 @@ const CustomSlider = withStyles({
     width: 24,
     height: 24,
     top: 77,
-    '@media (max-width: 768px)': {
+    "@media (max-width: 768px)": {
       top: 80,
       width: 12,
       height: 12,
     },
   },
   valueLabel: {
-    color: 'transparent',
+    color: "transparent",
     left: -5,
   },
-})(Slider)
+})(Slider);
 
 const CustomerJourney: FC = () => {
-  const { t, i18n } = useTranslation()
-  const langCode = i18n.language === 'vn' || i18n.language === 'vi-VN' ? 'vi' : i18n.language
-  const lstBreadCrumb = [{ label: t('chooseCards') }]
+  const { t, i18n } = useTranslation();
+  const langCode =
+    i18n.language === "vn" || i18n.language === "vi-VN" ? "vi" : i18n.language;
+  const lstBreadCrumb = [{ label: t("chooseCards") }];
   const [contentPage, setContentPage] = useState({
     total_record: 0,
     products: [],
-  })
+  });
   const [pagination, setPagination] = useState({
     page: 1,
     pageSize: 10,
-  })
+  });
   const [filter, setFilter] = useState({
-    monthlyincome: '0',
-    monthlyspent: '0',
-    demand: '0',
-  })
+    monthlyincome: "0",
+    monthlyspent: "0",
+    demand: "0",
+  });
 
   const [marks, setMarks] = useState<ICustomNeed>({
     monthlyincome: [],
     monthlyspent: [],
     demand: [],
-  })
-  const [monthlyIncomeValue, setMonthlyIncomeValue] = useState(1)
-  const [monthlyspentValue, setMonthlySpentValue] = useState(1)
+  });
+  const [monthlyIncomeValue, setMonthlyIncomeValue] = useState(1);
+  const [monthlyspentValue, setMonthlySpentValue] = useState(1);
 
-  const { data: filters } = useQuery(['filtersQuery', langCode], () => getSelectItemCustomerJourney(langCode))
+  const { data: filters } = useQuery(["filtersQuery", langCode], () =>
+    getSelectItemCustomerJourney(langCode)
+  );
 
   const { data } = useQuery(
     [
-      'lstProductQuery',
+      "lstProductQuery",
       langCode,
       filter.monthlyincome,
       filter.monthlyspent,
@@ -129,68 +150,68 @@ const CustomerJourney: FC = () => {
         filter.monthlyspent,
         filter.demand,
         pagination.page,
-        pagination.pageSize,
-      ),
-  )
+        pagination.pageSize
+      )
+  );
 
   useEffect(() => {
-    if (!data) return
-    setContentPage({ ...data, pageSize: 10 })
-  }, [data])
+    if (!data) return;
+    setContentPage({ ...data, pageSize: 10 });
+  }, [data]);
 
   const handleChangePageSize = (_, page) => {
     setPagination({
       ...pagination,
       page: page,
-    })
-  }
+    });
+  };
 
   const handleCountPage = (value) => {
     setPagination({
       pageSize: value,
       page: 1,
-    })
-  }
+    });
+  };
 
   useEffect(() => {
     if (filters) {
       setMarks({
         ...marks,
         monthlyincome: filters?.monthlyincome?.map((e, i) => {
-          return { value: i + 1, label: e.label, id: e.id }
+          return { value: i + 1, label: e.label, id: e.id };
         }),
         monthlyspent: filters?.monthlyspent?.map((e, i) => {
-          return { value: i + 1, label: e.label, id: e.id }
+          return { value: i + 1, label: e.label, id: e.id };
         }),
         demand: filters?.demand,
-      })
+      });
       setFilter({
         ...filter,
         monthlyincome: filters?.monthlyincome[0].id,
         monthlyspent: filters?.monthlyspent[0].id,
         demand: filters?.demand[0].id,
-      })
+      });
     }
-  }, [filters])
+  }, [filters]);
 
   const handleChangeMonthlyIncome = (_, value) => {
-    setMonthlyIncomeValue(value)
+    setMonthlyIncomeValue(value);
     setFilter({
       ...filter,
       monthlyincome: marks?.monthlyincome[value - 1].id,
-    })
-  }
+    });
+  };
   const handleChangeMonthlySpent = (_, value) => {
-    setMonthlySpentValue(value)
+    setMonthlySpentValue(value);
     setFilter({
       ...filter,
       monthlyspent: marks?.monthlyspent[value - 1].id,
-    })
-  }
+    });
+  };
 
   const formatSliderMoney = () => {
-    return <img src={IconSliderMoney} />
-  }
+    return <img src={IconSliderMoney} />;
+  };
 
   const renderFilter = () => {
     return (
@@ -198,7 +219,7 @@ const CustomerJourney: FC = () => {
         <Grid item md={12} xs={12}>
           <Box className={Style.stepJourney}>
             <Box>
-              <Typography variant="h2"> {t('monthlyIncome')}</Typography>
+              <Typography variant="h2"> {t("monthlyIncome")}</Typography>
               <CustomSlider
                 min={0}
                 max={marks?.monthlyincome?.length}
@@ -209,7 +230,7 @@ const CustomerJourney: FC = () => {
                 valueLabelFormat={formatSliderMoney}
                 valueLabelDisplay="on"
               />
-              <Typography variant="h2"> {t('monthlySpending')}</Typography>
+              <Typography variant="h2"> {t("monthlySpending")}</Typography>
               <CustomSlider
                 min={0}
                 max={marks?.monthlyspent?.length}
@@ -223,7 +244,7 @@ const CustomerJourney: FC = () => {
               />
             </Box>
             <Box mt={3}>
-              <Typography variant="h2"> {t('yourNeeds')}</Typography>
+              <Typography variant="h2"> {t("yourNeeds")}</Typography>
               <Box mt={3}>
                 <Grid container spacing={2}>
                   {marks?.demand?.map((data, i) => (
@@ -233,9 +254,16 @@ const CustomerJourney: FC = () => {
                           type="radio"
                           name="need"
                           id={`need${data.id}`}
-                          defaultChecked={filter.demand === data.id ? true : false}
+                          defaultChecked={
+                            filter.demand === data.id ? true : false
+                          }
                         />
-                        <label htmlFor={`need${data.id}`} onClick={() => setFilter({ ...filter, demand: data.id })}>
+                        <label
+                          htmlFor={`need${data.id}`}
+                          onClick={() =>
+                            setFilter({ ...filter, demand: data.id })
+                          }
+                        >
                           {data.label}
                         </label>
                       </div>
@@ -246,26 +274,25 @@ const CustomerJourney: FC = () => {
             </Box>
             <Box textAlign="center" mt={3}>
               <Button variant="contained" color="primary">
-                {t('matchingCard')}
+                {t("matchingCard")}
               </Button>
               <Box mt={2}>
-                <Typography variant="body2">{t('matchingCardFound', { card: contentPage.total_record })}</Typography>
+                <Typography variant="body2">
+                  {t("matchingCardFound", { card: contentPage.total_record })}
+                </Typography>
               </Box>
             </Box>
           </Box>
         </Grid>
       </Grid>
-    )
-  }
+    );
+  };
 
   return (
     <Container className={Style.customerJourney}>
       <PageHeading breadCrumbs={lstBreadCrumb} iconHome />
-      <Box mt={3} mb={3}>
-        <Typography component="h1" color="primary">
-          {t('chooseACreditCardChooseAStyle')}
-        </Typography>
-      </Box>
+      <PageTitle title={t("chooseACreditCardChooseAStyle")} color="primary" />
+
       <Box mt={3}>{renderFilter()}</Box>
       <Box mb={3}>
         <ProductItem lstProduct={contentPage.products} />
@@ -283,6 +310,6 @@ const CustomerJourney: FC = () => {
         )}
       </Box>
     </Container>
-  )
-}
-export default CustomerJourney
+  );
+};
+export default CustomerJourney;

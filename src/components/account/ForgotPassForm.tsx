@@ -28,6 +28,7 @@ const ForgotPassForm: FC<IForgotPassFormProps> = (props) => {
         onChange={(value) => {
           setphoneNumb(value)
         }}
+        type="number"
       />
       <Grid container justifyContent="center" className={Style.buttonWrapper}>
         <Button

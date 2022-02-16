@@ -17,10 +17,11 @@ interface AllNewsProps {
   promotional_news: any
   servicesNew: any
   isXsSize: boolean
+  handleTitleEvent: (value) => void
 }
 
 const AllNews: FC<AllNewsProps> = (props) => {
-  const { general, news, promotional_news, servicesNew, isXsSize } = props
+  const { general, news, promotional_news, servicesNew, isXsSize, handleTitleEvent } = props
   const router = useRouter()
 
   const { t } = useTranslation()
@@ -86,7 +87,7 @@ const AllNews: FC<AllNewsProps> = (props) => {
     return (
       <Grid container spacing={5} className={Style.generalWrap}>
         <Grid item sm={8}>
-          {renderGeneralItem({ ...general.highlight })}
+          {renderGeneralItem({ ...general?.highlight })}
         </Grid>
 
         <Grid item sm={4}>
@@ -113,7 +114,11 @@ const AllNews: FC<AllNewsProps> = (props) => {
     const image = !isMobile ? pc_mode : mobile_mode
     return (
       <Grid className={Style.byCateWrap}>
-        <Typography variant="h6" className={Style.heading}>
+        <Typography
+          variant="h6"
+          className={Style.heading}
+          onClick={() => handleTitleEvent(highlight.type || news[0].type || 0)}
+        >
           {t(titleNews)}
         </Typography>
         <Grid container spacing={isXsSize ? 2 : 5} className={Style.mainNewsWrap}>
@@ -181,8 +186,14 @@ const AllNews: FC<AllNewsProps> = (props) => {
     <Grid className={Style.allNewsWrap}>
       {renderGeneralNews()}
       {renderNewsByCate({ ...news, titleNews: 'news' })}
-      {renderNewsByCate({ ...promotional_news, titleNews: 'promotionInformation' })}
-      {renderNewsByCate({ ...servicesNew, titleNews: 'tin sản phẩm & dịch vụ' })}
+      {renderNewsByCate({
+        ...promotional_news,
+        titleNews: 'promotionInformation',
+      })}
+      {renderNewsByCate({
+        ...servicesNew,
+        titleNews: 'productServiceNews',
+      })}
     </Grid>
   )
 }

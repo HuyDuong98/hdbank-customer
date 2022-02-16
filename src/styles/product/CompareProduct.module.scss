@@ -67,7 +67,7 @@
 }
 .itemProductImg {
   height: 12.5rem;
-  width: 100%;
+  width: 12.125rem;
   margin: 0.5rem 0;
 
   img {
@@ -80,7 +80,7 @@
 
 .emptyCard {
   height: 12.5rem;
-  width: 100%;
+  width: 12.125rem;
   margin-top: 1.5rem;
   margin-bottom: 1rem;
 
@@ -146,7 +146,7 @@
     position: fixed;
     background: #fff;
     top: 70px;
-    z-index: 9999;
+    z-index: 999;
     .colDetail {
       text-align: center;
       padding: 0.8rem 0.5rem !important;

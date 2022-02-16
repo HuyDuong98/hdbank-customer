@@ -12,11 +12,10 @@ interface ITabsProps {
   value?: string | null
 }
 const Tabs: FC<ITabsProps> = ({ tabs, onChange, value }) => {
-  const [active, setActive] = useState(value || null)
   const handleChange = (event, value) => {
-    setActive(value)
     onChange(value)
   }
+
   return (
     <nav className={Style.tabs}>
       <ul>
@@ -25,7 +24,7 @@ const Tabs: FC<ITabsProps> = ({ tabs, onChange, value }) => {
             <li
               key={index}
               className={clsx('', {
-                [Style.active]: active === tab.value,
+                [Style.active]: value === tab.value,
               })}
               onClick={(e) => handleChange(e, tab.value)}
             >

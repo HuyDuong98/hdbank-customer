@@ -49,6 +49,7 @@ const CustomerInfo: FC<ICustomerInfoProps> = (props) => {
               onChange={(value) => {
                 handleInfo(value, 'phone')
               }}
+              type="number"
             ></CustomTextField>
           </div>
 

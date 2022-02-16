@@ -1,17 +1,13 @@
-import { FC } from 'react'
-import { Grid } from '@material-ui/core'
-import Header from '@components/shared/Header'
-import FAQList from '@components/FAQ/FAQList'
+import { FC } from "react";
+import { Grid } from "@material-ui/core";
+import FAQList from "@components/faq/FAQList";
 
 const FAQ: FC = () => {
   return (
     <Grid container>
-      <Header />
-      <Grid container>
-        <FAQList />
-      </Grid>
+      <FAQList />
     </Grid>
-  )
-}
+  );
+};
 
-export default FAQ
+export default FAQ;

@@ -1,31 +1,24 @@
-import { FC, useState, useEffect } from "react";
-import {
-  Button,
-  Grid,
-  Avatar,
-  Box,
-  IconButton,
-  FormHelperText,
-} from "@material-ui/core";
-import Style from "../../styles/faq/ListFAQ.module.scss";
-import { useTranslation } from "react-i18next";
-import { getTopics, sendContact } from "../../apis/landing-page/home";
+import { FC, useState, useEffect } from 'react'
+import { Button, Grid, Avatar, Box, IconButton, FormHelperText } from '@material-ui/core'
+import Style from '../../styles/faq/ListFAQ.module.scss'
+import { useTranslation } from 'react-i18next'
+import { getTopics, sendContact } from '../../apis/landing-page/home'
 
-import CustomTextField from "../../components/shared/CustomTextField";
-import CustomSelect from "../../components/shared/CustomSelect";
-import CachedIcon from "@material-ui/icons/Cached";
+import CustomTextField from '../../components/shared/CustomTextField'
+import CustomSelect from '../../components/shared/CustomSelect'
+import CachedIcon from '@material-ui/icons/Cached'
 
 //icons
-import CustomDialog from "../shared/CustomDialog";
-import Joi from "joi";
-import { useValidateForm } from "../../hooks/useValidateForm";
-import { getCapchaImage } from "../../apis/faq";
-import { useMutation, useQuery } from "react-query";
-import CustomDialogMessage from "../shared/CustomDialogMessage";
+import CustomDialog from '../shared/CustomDialog'
+import Joi from 'joi'
+import { useValidateForm } from '../../hooks/useValidateForm'
+import { getCapchaImage } from '../../apis/faq'
+import { useMutation, useQuery } from 'react-query'
+import CustomDialogMessage from '../shared/CustomDialogMessage'
 
 interface IDialogContactProps {
-  isOpen: boolean;
-  handleClose: () => void;
+  isOpen: boolean
+  handleClose: () => void
 }
 
 const schema = Joi.object({
@@ -34,78 +27,103 @@ const schema = Joi.object({
     .required()
     .pattern(
       new RegExp(
-        /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s|_]+$/
-      )
+        /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/,
+      ),
     )
     .max(50)
     .messages({
-      "any.required": "nameNotBlank",
-      "string.max": "limitName",
-      "string.pattern.base": "nameNotValid",
+      'any.required': 'nameNotBlank',
+      'string.max': 'limitName',
+      'string.pattern.base': 'nameNotValid',
     }),
   phone: Joi.string()
     .empty(null)
     .required()
-    .length(10)
-    .pattern(new RegExp(/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/))
+    .pattern(new RegExp(/^(((\+|)84(0?))|0)(3|5|7|8|9)+([0-9]{8})$/))
+    .max(12)
+    .min(10)
     .messages({
-      "any.required": "phoneNotBlank",
-      "string.pattern.base": "phoneNotValid",
-      "string.length": "phoneNotValid",
+      'any.required': 'phoneNotBlank',
+      'string.pattern.base': 'phoneNotValid',
+      'string.max': 'phoneNotValid',
+      'string.min': 'phoneNotValid',
     }),
   email: Joi.string()
     .empty(null)
     .email({ tlds: { allow: false } })
     .messages({
-      "string.email": "emailNotValid",
+      'string.email': 'emailNotValid',
     }),
   topic: Joi.string().empty(null).required().messages({
-    "any.required": "topicNotBlank",
+    'any.required': 'topicNotBlank',
   }),
   content: Joi.string()
     .empty(null)
     .required()
-    .pattern(new RegExp(/^[^#@,.?/{}!^*()$]+$/))
+    .pattern(
+      new RegExp(
+        /^[a-z0-9A-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/,
+      ),
+    )
     .messages({
-      "any.required": "contentNotBlank",
-      "string.pattern.base": "contentNotValid",
+      'any.required': 'contentNotBlank',
+      'string.pattern.base': 'characterNotValid',
     }),
   capcha: Joi.string().empty(null).required().messages({
-    "any.required": "captchaNotBlank",
+    'any.required': 'captchaNotBlank',
   }),
-});
+})
 
 const simpleSchema = Joi.object({
+  name: Joi.string()
+    .empty(null)
+    .required()
+    .pattern(
+      new RegExp(
+        /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/,
+      ),
+    )
+    .max(50)
+    .messages({
+      'any.required': 'nameNotBlank',
+      'string.max': 'limitName',
+      'string.pattern.base': 'nameNotValid',
+    }),
   topic: Joi.string().empty(null).required().messages({
-    "any.required": "topicNotBlank",
+    'any.required': 'topicNotBlank',
   }),
   content: Joi.string()
     .empty(null)
-    .pattern(new RegExp(/^[^#@,.?/{}!^*()$]+$/))
+    .pattern(
+      new RegExp(
+        /^[a-z0-9A-Z.,ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/,
+      ),
+    )
     .required()
     .messages({
-      "any.required": "contentNotBlank",
-      "string.pattern.base": "contentNotValid",
+      'any.required': 'contentNotBlank',
+      'string.pattern.base': 'characterNotValid',
     }),
   capcha: Joi.string().empty(null).required().messages({
-    "any.required": "captchaNotBlank",
+    'any.required': 'captchaNotBlank',
   }),
-});
+})
 
 const DialogContact: FC<IDialogContactProps> = (props) => {
-  const { t } = useTranslation();
-  const { isOpen, handleClose } = props;
-  const [validatedKey, setValidatedKey] = useState<string>();
-  const [isLogin] = useState(false);
-  const [disabledSubmit, setDisabledSubmit] = useState<boolean>(true);
-  const [listTopic, setListTopic] = useState([]);
-  const [hiddenDialog, setHiddenDialog] = useState<boolean>(false);
+  const { t, i18n } = useTranslation()
+  const { isOpen, handleClose } = props
+  const [validatedKey, setValidatedKey] = useState<string>()
+  const [isLogin] = useState(false)
+  const [disabledSubmit, setDisabledSubmit] = useState<boolean>(true)
+  const [listTopic, setListTopic] = useState([])
+  const [hiddenDialog, setHiddenDialog] = useState<boolean>(false)
+  const langCode = i18n.language === 'vn' || i18n.language === 'vi-VN' ? 'vi' : i18n.language
   const [message, setMessage] = useState<any>({
     isOpen: false,
     message: null,
     title: null,
     isSuccess: false,
-  });
+  })
 
   const [form, setForm] = useState<any>({
     name: null,
@@ -114,56 +132,54 @@ const DialogContact: FC<IDialogContactProps> = (props) => {
     topic: null,
     content: null,
     capcha: null,
-  });
-  const [capchaMessage, setCapchaMessage] = useState<string | null>(null);
+  })
+  const [capchaMessage, setCapchaMessage] = useState<string | null>(null)
 
   const { data: topicData, isFetching: topicFetching } = useQuery(
-    "topicQuery",
-    getTopics,
-    {}
-  );
-  const { data: capchaData, refetch } = useQuery("capchaQuery", getCapchaImage);
+    ['topicQuery', langCode],
+    () => getTopics(langCode),
+    {},
+  )
+  const { data: capchaData, refetch } = useQuery('capchaQuery', getCapchaImage)
   const refetchCapcha = () => {
-    refetch();
-  };
+    refetch()
+  }
 
   useEffect(() => {
-    if (!topicData) return;
+    if (!topicData) return
     const temp = topicData.map((topic) => {
       return {
         name: topic.item,
         value: topic.value,
         renderItem: <span>{topic.item}</span>,
-      };
-    });
-    setListTopic(temp);
-  }, [topicData]);
+      }
+    })
+    setListTopic(temp)
+  }, [topicData])
 
-  const { errors, validateAll, eraseErrors } = useValidateForm(
-    form,
-    isLogin ? simpleSchema : schema,
-    validatedKey
-  );
+  const { errors, validateAll, eraseErrors } = useValidateForm(form, isLogin ? simpleSchema : schema, validatedKey)
 
   const handleForm = (value, key) => {
-    setValidatedKey(key);
-    setForm({ ...form, [key]: value });
-  };
+    setValidatedKey(key)
+    setForm({ ...form, [key]: value })
+  }
 
   const getErrorMessage = (field: string) => {
-    const error = errors?.find((f) => f.field === field);
-    return error ? t(error.message) : "";
-  };
+    const error = errors?.find((f) => f.field === field)
+    return error ? t(error.message) : ''
+  }
 
   const hasErrors = (field: string) => {
-    const error = getErrorMessage(field);
-    return !!error;
-  };
+    const error = getErrorMessage(field)
+    return !!error
+  }
 
-  const { mutateAsync } = useMutation(sendContact);
+  const { mutateAsync } = useMutation(sendContact)
 
-  const handleSendRequest = async () => {
+  const handleSendRequest = async (event) => {
+    event.preventDefault()
     if (validateAll()) {
+      setDisabledSubmit(true)
       const response = await mutateAsync({
         customerName: form.name,
         phoneNumber: form.phone,
@@ -172,31 +188,31 @@ const DialogContact: FC<IDialogContactProps> = (props) => {
         question: form.content,
         captcha: form.capcha,
         captchaId: capchaData.capchaId,
-        islogin: isLogin ? "1" : "0",
-      });
+        islogin: isLogin ? '1' : '0',
+      })
       if (response.isSuccessful) {
-        setHiddenDialog(true);
+        setHiddenDialog(true)
         setMessage({
           ...message,
           isOpen: true,
-          message: response.successData.message,
-          title: t("Gửi thành công"),
-          isSuccess: "success",
-        });
+          title: t('submittedSuccessfully'),
+          isSuccess: 'success',
+          message: t('MESS27'),
+        })
       } else if (response.responseCode === -1) {
-        setCapchaMessage(`Capcha ${t("MESS04")}`);
+        setCapchaMessage(`Capcha ${t('MESS04')}`)
       } else {
-        setHiddenDialog(true);
+        setHiddenDialog(true)
         setMessage({
           ...message,
           isOpen: true,
-          message: t("MESS28"),
-          title: t("Gửi thất bại"),
-          isSuccess: "warning",
-        });
+          message: t('MESS28'),
+          title: t('submitFailed'),
+          isSuccess: 'warning',
+        })
       }
     }
-  };
+  }
 
   const onCloseDialog = () => {
     setForm({
@@ -205,37 +221,30 @@ const DialogContact: FC<IDialogContactProps> = (props) => {
       email: null,
       topic: null,
       content: null,
-      captcha: null,
-    });
-    setCapchaMessage(null);
-    setHiddenDialog(false);
-    setDisabledSubmit(true);
-    eraseErrors();
-    handleClose();
-  };
+      capcha: null,
+    })
+    setCapchaMessage(null)
+    setHiddenDialog(false)
+    setDisabledSubmit(true)
+    eraseErrors()
+    handleClose()
+  }
 
   const onCloseDialogMessage = () => {
     setMessage({
       ...message,
       isOpen: false,
-    });
-    onCloseDialog();
-  };
+    })
+    onCloseDialog()
+  }
 
   const checkSubmitEnable = () => {
-    if (
-      form.name &&
-      form.phone &&
-      form.capcha &&
-      form.content &&
-      form.topic &&
-      validateAll()
-    ) {
-      setDisabledSubmit(false);
+    if (form.name && form.phone && form.capcha && form.content && form.topic && validateAll()) {
+      setDisabledSubmit(false)
     } else {
-      setDisabledSubmit(true);
+      setDisabledSubmit(true)
     }
-  };
+  }
 
   const renderForm = () => {
     return (
@@ -249,23 +258,23 @@ const DialogContact: FC<IDialogContactProps> = (props) => {
           onClick={handleSendRequest}
           disabled={disabledSubmit}
         >
-          {t("submit")}
+          {t('submit')}
         </Button>
       </>
-    );
-  };
+    )
+  }
 
   const renderNoneLogin = () => {
     return (
       <>
         <div className={Style.textFieldWrapper}>
           <CustomTextField
-            placeholder={`${t("firstAndLastName")} *`}
+            placeholder={`${t('firstAndLastName')} *`}
             value={form.name}
-            error={hasErrors("name")}
-            helperText={getErrorMessage("name")}
+            error={hasErrors('name')}
+            helperText={getErrorMessage('name')}
             onChange={(value) => {
-              handleForm(value || null, "name");
+              handleForm(value || null, 'name')
             }}
             onKeyUp={checkSubmitEnable}
           />
@@ -273,25 +282,26 @@ const DialogContact: FC<IDialogContactProps> = (props) => {
 
         <div className={Style.textFieldWrapper}>
           <CustomTextField
-            placeholder={`${t("phoneNumber")} *`}
+            placeholder={`${t('phoneNumber')} *`}
             value={form.phone}
-            error={hasErrors("phone")}
-            helperText={getErrorMessage("phone")}
+            error={hasErrors('phone')}
+            helperText={getErrorMessage('phone')}
             onChange={(value) => {
-              handleForm(value || null, "phone");
+              handleForm(value || null, 'phone')
             }}
             onKeyUp={checkSubmitEnable}
+            type="number"
           />
         </div>
 
         <div className={Style.textFieldWrapper}>
           <CustomTextField
-            placeholder={t("email")}
+            placeholder={t('email')}
             value={form.email}
-            error={hasErrors("email")}
-            helperText={getErrorMessage("email")}
+            error={hasErrors('email')}
+            helperText={getErrorMessage('email')}
             onChange={(value) => {
-              handleForm(value || null, "email");
+              handleForm(value || null, 'email')
             }}
             onKeyUp={checkSubmitEnable}
           />
@@ -299,24 +309,24 @@ const DialogContact: FC<IDialogContactProps> = (props) => {
 
         <div className={Style.textFieldWrapper}>
           <CustomSelect
-            placeholder={t("selectAnOption")}
+            placeholder={t('topic')}
             isCustomDisplayValue
             value={form.topic}
             options={listTopic}
             onChange={(value) => {
-              handleForm(value || null, "topic");
+              handleForm(value || null, 'topic')
             }}
           />
         </div>
 
         <div className={Style.textFieldWrapper}>
           <CustomTextField
-            placeholder={`${t("content")} *`}
+            placeholder={`${t('content')} *`}
             value={form.content}
-            error={hasErrors("content")}
-            helperText={getErrorMessage("content")}
+            error={hasErrors('content')}
+            helperText={getErrorMessage('content')}
             onChange={(value) => {
-              handleForm(value || null, "content");
+              handleForm(value || null, 'content')
             }}
             outlined={true}
             rows={4}
@@ -327,12 +337,12 @@ const DialogContact: FC<IDialogContactProps> = (props) => {
           <Grid container>
             <Grid item xs={6}>
               <CustomTextField
-                placeholder={`${t("captchaCode")} *`}
+                placeholder={`${t('captchaCode')} *`}
                 value={form.capcha}
-                error={hasErrors("capcha")}
-                helperText={getErrorMessage("capcha")}
+                error={hasErrors('capcha')}
+                helperText={getErrorMessage('capcha')}
                 onChange={(value) => {
-                  handleForm(value || null, "capcha");
+                  handleForm(value || null, 'capcha')
                 }}
                 onFocus={() => setCapchaMessage(null)}
                 onKeyUp={checkSubmitEnable}
@@ -355,8 +365,8 @@ const DialogContact: FC<IDialogContactProps> = (props) => {
           </Grid>
         </div>
       </>
-    );
-  };
+    )
+  }
 
   const renderLogin = () => {
     return (
@@ -372,24 +382,24 @@ const DialogContact: FC<IDialogContactProps> = (props) => {
 
         <div className={Style.textFieldWrapper}>
           <CustomSelect
-            placeholder={t("selectAnOption")}
+            placeholder={t('topic')}
             value={form.topic}
             options={listTopic}
             isCustomDisplayValue
             onChange={(value) => {
-              handleForm(value || null, "topic");
+              handleForm(value || null, 'topic')
             }}
           />
         </div>
 
         <div className={Style.textFieldWrapper}>
           <CustomTextField
-            placeholder={`${t("content")} *`}
+            placeholder={`${t('content')} *`}
             value={form.content}
-            error={hasErrors("content")}
-            helperText={getErrorMessage("content")}
+            error={hasErrors('content')}
+            helperText={getErrorMessage('content')}
             onChange={(value) => {
-              handleForm(value || null, "content");
+              handleForm(value || null, 'content')
             }}
             outlined={true}
             rows={4}
@@ -400,20 +410,16 @@ const DialogContact: FC<IDialogContactProps> = (props) => {
         <div className={Style.textFieldWrapper}>
           <Grid container>
             <Grid item lg={6} md={12} sm={6} xs={12}>
-              <Grid
-                container
-                className={Style.captcha}
-                justifyContent="space-between"
-              >
+              <Grid container className={Style.captcha} justifyContent="space-between">
                 <Grid item xs={6}>
                   <Grid>
                     <CustomTextField
-                      placeholder={`${t("captchaCode")} *`}
+                      placeholder={`${t('captchaCode')} *`}
                       value={form.capcha}
-                      error={hasErrors("capcha")}
-                      helperText={getErrorMessage("capcha")}
+                      error={hasErrors('capcha')}
+                      helperText={getErrorMessage('capcha')}
                       onChange={(value) => {
-                        handleForm(value || null, "capcha");
+                        handleForm(value || null, 'capcha')
                       }}
                       onFocus={() => setCapchaMessage(null)}
                       onKeyUp={checkSubmitEnable}
@@ -428,10 +434,7 @@ const DialogContact: FC<IDialogContactProps> = (props) => {
                     </Grid>
 
                     <Grid item xs={2}>
-                      <IconButton
-                        onClick={refetchCapcha}
-                        className={Style.btnCapcha}
-                      >
+                      <IconButton onClick={refetchCapcha} className={Style.btnCapcha}>
                         <CachedIcon />
                       </IconButton>
                     </Grid>
@@ -442,19 +445,15 @@ const DialogContact: FC<IDialogContactProps> = (props) => {
           </Grid>
         </div>
       </>
-    );
-  };
+    )
+  }
 
-  if (topicFetching) return <></>;
+  if (topicFetching) return <></>
 
   return (
     <>
       {!hiddenDialog && (
-        <CustomDialog
-          isOpen={isOpen}
-          handleClose={onCloseDialog}
-          title={t("submitAQuestion")}
-        >
+        <CustomDialog isOpen={isOpen} handleClose={onCloseDialog} title={t('contact')}>
           <Box className={Style.dialogWrapper}>
             <Grid className={Style.dialogBody}>{renderForm()}</Grid>
           </Box>
@@ -468,7 +467,7 @@ const DialogContact: FC<IDialogContactProps> = (props) => {
         message={message.message}
       />
     </>
-  );
-};
+  )
+}
 
-export default DialogContact;
+export default DialogContact

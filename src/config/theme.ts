@@ -68,6 +68,13 @@ const theme = createTheme({
       containedSecondary: {
         color: colour.white,
       },
+      contained: {
+        "&.Mui-disabled": {
+          color: colour.white,
+          backgroundColor: colour.disabled,
+          cursor: "not-allowed",
+        },
+      },
     },
     MuiTextField: { ...commonRootBorder },
     MuiFormControl: { ...commonRootBorder },

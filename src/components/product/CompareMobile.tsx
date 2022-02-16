@@ -8,7 +8,6 @@ import { useRouter } from 'next/router'
 import { pagePath } from '../../utils/constants/pagePath'
 import Link from 'next/link'
 
-
 //image
 const CardImg = '/assets/mobile/landing/card-2.png'
 const emptyCard = '/assets/mobile/landing/empty-card.png'
@@ -19,6 +18,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import AddIcon from '@material-ui/icons/Add'
 import { convertUrltoSlug } from '../../utils/helpers/commonHelpers'
+import { TIME_AUTO_PLAY_SLIDE } from '../../utils/constants/variables'
 
 interface IProduct {
   id: string
@@ -42,7 +42,6 @@ const CompareMobile: FC<ICompareMobileProps> = (props) => {
   const { t } = useTranslation()
   const router = useRouter()
   const [fixNameCard, setFixNameCard] = useState(false)
-
   const [swipers, setSwipers] = useState({
     items: [],
   })
@@ -51,8 +50,11 @@ const CompareMobile: FC<ICompareMobileProps> = (props) => {
       items: swipers.items.concat([swiper]),
     }))
   }
-  const slideTo = (index) => {
-    swipers.items.map((item: any) => item.slideTo(index))
+  const slideToSlide = (index) => {
+    swipers.items.map((item: any) => {
+      item.slideTo(index, 300)
+      return item
+    })
   }
   const renderEmptyBox = () => {
     return (
@@ -74,7 +76,7 @@ const CompareMobile: FC<ICompareMobileProps> = (props) => {
   }
   const handleScroll = () => {
     const position = window.pageYOffset
-    if (position > 500) {
+    if (position > 130) {
       setFixNameCard(true)
     } else {
       setFixNameCard(false)
@@ -89,40 +91,17 @@ const CompareMobile: FC<ICompareMobileProps> = (props) => {
   }, [])
 
   return (
-
     <Grid container className={Style.compareMobileWrap}>
       <Typography variant="h6" className={Style.mobileTitle}>
         {t('compareCards')}
       </Typography>
 
       <Grid container className={Style.contentWrap}>
-        {!fixNameCard && (
-          // <Swiper
-          //   slidesPerView={2}
-          //   onSwiper={(swiper) => addSwiper(swiper)}
-          //   onActiveIndexChange={(swiper) => slideTo(swiper.activeIndex)}
-          //   navigation={{
-          //     prevEl: '#navPrev',
-          //     nextEl: '#navNext',
-          //   }}
-          //   className={Style.swiperFix}
-          // >
-          //   {products.map((card, idx) => {
-          //     const { title } = card
-          //     return (
-          //       <SwiperSlide key={idx}>
-          //         <Grid container direction="column" className={`${Style.borderCol}`}>
-          //           <Typography className={Style.cardName}>{title}</Typography>
-          //         </Grid>
-          //       </SwiperSlide>
-          //     )
-          //   })}
-
-          // </Swiper>
+        {fixNameCard && (
           <Swiper
             slidesPerView={2}
             onSwiper={(swiper) => addSwiper(swiper)}
-            onActiveIndexChange={(swiper) => slideTo(swiper.activeIndex)}
+            onActiveIndexChange={(swiper) => slideToSlide(swiper.activeIndex)}
             navigation={{
               prevEl: '#navPrev',
               nextEl: '#navNext',
@@ -134,19 +113,20 @@ const CompareMobile: FC<ICompareMobileProps> = (props) => {
               return (
                 <SwiperSlide key={idx}>
                   <Grid container direction="column" className={`${Style.colDetail} ${Style.first}`}>
-                    <Typography className={Style.cardName}>{title}</Typography>
+                    <Link href={`${pagePath.productPage}/${convertUrltoSlug(title)}.${id}`}>
+                      <Typography className={Style.cardName}>{title}</Typography>
+                    </Link>
                   </Grid>
                 </SwiperSlide>
               )
             })}
             {products.length === 2 && <SwiperSlide>{<div></div>}</SwiperSlide>}
           </Swiper>
-
         )}
         <Swiper
           slidesPerView={2}
           onSwiper={(swiper) => addSwiper(swiper)}
-          onActiveIndexChange={(swiper) => slideTo(swiper.activeIndex)}
+          onActiveIndexChange={(swiper) => slideToSlide(swiper.activeIndex)}
           navigation={{
             prevEl: '#navPrev',
             nextEl: '#navNext',
@@ -158,10 +138,12 @@ const CompareMobile: FC<ICompareMobileProps> = (props) => {
             return (
               <SwiperSlide key={idx}>
                 <Grid container direction="column" className={`${Style.colDetail} ${Style.first}`}>
-                  <Typography className={Style.cardName}>{title}</Typography>
-
-                  <img src={mobile_mode || CardImg} className={Style.cardImg} />
-
+                  <Link href={`${pagePath.productPage}/${convertUrltoSlug(title)}.${id}`}>
+                    <Typography className={Style.cardName}>{title}</Typography>
+                  </Link>
+                  <Link href={`${pagePath.productPage}/${convertUrltoSlug(title)}.${id}`}>
+                    <img src={mobile_mode || CardImg} className={Style.cardImg} />
+                  </Link>
                   <Button
                     variant="contained"
                     color="primary"
@@ -204,45 +186,43 @@ const CompareMobile: FC<ICompareMobileProps> = (props) => {
         </>
       </Grid>
 
-      {
-        criterias.map((cri, idx) => {
-          const { name, items } = cri
-          return (
-            <Grid container key={idx}>
-              <Grid className={Style.headDetail}>
-                <Typography>{name}</Typography>
-              </Grid>
-
-              <Grid container className={Style.contentWrap}>
-                <Swiper
-                  slidesPerView={2}
-                  navigation={{
-                    prevEl: '#navPrev',
-                    nextEl: '#navNext',
-                  }}
-                  className={Style.swiperWrap}
-                  onSwiper={(swiper) => addSwiper(swiper)}
-                  onActiveIndexChange={(swiper) => slideTo(swiper.activeIndex)}
-                >
-                  {items.map((item, idx) => {
-                    const { value } = item
-                    return (
-                      <SwiperSlide key={idx}>
-                        <Grid container direction="column" className={Style.colDetail}>
-                          <Markup content={value} />
-                        </Grid>
-                      </SwiperSlide>
-                    )
-                  })}
-
-                  {products.length === 2 && <SwiperSlide></SwiperSlide>}
-                </Swiper>
-              </Grid>
+      {criterias.map((cri, idx) => {
+        const { name, items } = cri
+        return (
+          <Grid container key={idx}>
+            <Grid className={Style.headDetail}>
+              <Typography>{name}</Typography>
             </Grid>
-          )
-        })
-      }
-    </Grid >
+
+            <Grid container className={Style.contentWrap}>
+              <Swiper
+                slidesPerView={2}
+                navigation={{
+                  prevEl: '#navPrev',
+                  nextEl: '#navNext',
+                }}
+                className={Style.swiperWrap}
+                onSwiper={(swiper) => addSwiper(swiper)}
+                onActiveIndexChange={(swiper) => slideToSlide(swiper.activeIndex)}
+              >
+                {items.map((item, idx) => {
+                  const { value } = item
+                  return (
+                    <SwiperSlide key={idx}>
+                      <Grid container direction="column" className={Style.colDetail}>
+                        <Markup content={value} />
+                      </Grid>
+                    </SwiperSlide>
+                  )
+                })}
+
+                {products.length === 2 && <SwiperSlide></SwiperSlide>}
+              </Swiper>
+            </Grid>
+          </Grid>
+        )
+      })}
+    </Grid>
   )
 }
 export default CompareMobile

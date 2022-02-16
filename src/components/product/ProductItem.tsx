@@ -107,13 +107,11 @@ const ProductItem: FC<IProductProps> = (props) => {
       remove(card)
     }
 
-    if (temp.length === 3)
-      router.push(pagePath.compareProductsPage)
+    if (temp.length === 3) router.push(pagePath.compareProductsPage)
   }
 
   const handleChangePage = () => {
-    if (isLength)
-      router.push(pagePath.compareProductsPage)
+    if (isLength) router.push(pagePath.compareProductsPage)
   }
 
   const renderListProduct = () => {
@@ -125,7 +123,7 @@ const ProductItem: FC<IProductProps> = (props) => {
           const img = !isMobile ? pc_mode : mobile_mode
           return (
             <Grid key={idx} container className={Style.itemWrap}>
-              <Link href={`${pagePath.productPage}/${convertUrltoSlug(title)}.${id}`} passHref >
+              <Link href={`${pagePath.productPage}/${convertUrltoSlug(title)}.${id}`} passHref>
                 <Typography color="textPrimary" variant="h5">
                   {t(title)}
                 </Typography>
@@ -138,7 +136,6 @@ const ProductItem: FC<IProductProps> = (props) => {
                     </Link>
 
                     <Grid>
-
                       <Button
                         variant="contained"
                         color="primary"
@@ -151,7 +148,6 @@ const ProductItem: FC<IProductProps> = (props) => {
                       >
                         {t('openCard')}
                       </Button>
-
                     </Grid>
 
                     <Grid className={Style.actionWrap}>
@@ -225,7 +221,7 @@ const ProductItem: FC<IProductProps> = (props) => {
             onClick={handleChangePage}
           >
             <Badge badgeContent={`${lstCompare.length}/3`} color="primary">
-              <img alt='' src={isLength ? CompareIcon : CompareIconBlack} />
+              <img alt="" src={isLength ? CompareIcon : CompareIconBlack} />
             </Badge>
           </Grid>
 
@@ -239,7 +235,11 @@ const ProductItem: FC<IProductProps> = (props) => {
                   })}
                 >
                   <Grid className={Style.flex}>
-                    <img alt='' src={card.img || Card2} className={Style.cardImg} />
+                    <img
+                      alt={card.title}
+                      src={isMobile ? card.mobile_mode : card.pc_mode || Card2}
+                      className={Style.cardImg}
+                    />
 
                     <span className={Style.cardName}>{card.title}</span>
                   </Grid>

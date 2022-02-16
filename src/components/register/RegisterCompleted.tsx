@@ -29,7 +29,7 @@ const RegisterCompleted: FC = () => {
             size="large"
             fullWidth={true}
             onClick={() => {
-              useRouter.push(pagePath.login)
+              router.push(pagePath.login)
             }}
           >
             {t('Đăng nhập')}

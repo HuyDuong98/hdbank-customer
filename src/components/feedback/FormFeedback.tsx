@@ -1,6 +1,6 @@
 import { Box, Typography, Button, FormHelperText, Avatar, Grid } from '@material-ui/core'
 import { Rating } from '@material-ui/lab'
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import CustomTextField from '../../components/shared/CustomTextField'
 import Style from '../../styles/components/FormFeedback.module.scss'
@@ -9,17 +9,17 @@ import StarRoundedIcon from '@material-ui/icons/StarRounded'
 import { useValidateForm } from '../../hooks/useValidateForm'
 import Joi from 'joi'
 import CustomDialogMessage from '../../components/shared/CustomDialogMessage'
-import { IMessageModel } from '../../../models/Shared/IMessageModel'
 import { useMutation } from 'react-query'
 import { sendFeedback } from '../../apis/landing-page/feedback'
 import CustomAvatar from '../../components/shared/CustomAvatar'
+import { IMessageModel } from '@models/IMessageModel'
 
 const schema = Joi.object({
   name: Joi.string()
     .empty(null)
     .pattern(
       new RegExp(
-        /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s|_]+$/,
+        /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/,
       ),
     )
     .required()
@@ -32,20 +32,32 @@ const schema = Joi.object({
   phone: Joi.string()
     .empty(null)
     .required()
-    .length(10)
-    .pattern(new RegExp(/(03|05|07|08|09)+([0-9]{8})\b/))
+    .pattern(new RegExp(/^(((\+|)84(0?))|0)(3|5|7|8|9)+([0-9]{8})$/))
+    .max(12)
+    .min(10)
     .messages({
       'any.required': 'phoneNotBlank',
       'string.pattern.base': 'phoneNotValid',
-      'string.length': 'phoneNotValid',
+      'string.max': 'phoneNotValid',
+      'string.min': 'phoneNotValid',
     }),
   star: Joi.number().empty(null).required().messages({
     'any.required': 'rateNotBlank',
   }),
-  content: Joi.string().empty(null).max(500).required().messages({
-    'any.required': 'reviewNotBlank',
-    'string.max': 'contentLimit',
-  }),
+  content: Joi.string()
+    .empty(null)
+    .max(500)
+    .required()
+    .pattern(
+      new RegExp(
+        /^[0-9a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/,
+      ),
+    )
+    .messages({
+      'any.required': 'reviewNotBlank',
+      'string.max': 'contentLimit',
+      'string.pattern.base': 'Nội dung không chứa kí tự đặt biệt',
+    }),
 })
 
 const simpleSchema = Joi.object({
@@ -81,6 +93,10 @@ const Feedback: FC = () => {
     isSuccess: 'failed',
   })
 
+  useEffect(() => {
+    disabledSubmit()
+  }, [form.star])
+
   const { errors, validateAll, eraseErrors } = useValidateForm(
     isLogin ? simpleForm : form,
     isLogin ? simpleSchema : schema,
@@ -88,6 +104,17 @@ const Feedback: FC = () => {
   )
 
   const handleChangeForm = (value, key) => {
+    const findSpecial = key !== 'star' && value?.indexOf('_')
+    const findSpecial2 = key !== 'star' && value?.indexOf('|')
+
+    if (
+      (findSpecial && findSpecial >= 0) ||
+      (findSpecial2 && findSpecial2 >= 0) ||
+      (key === 'content' && value?.length > 500)
+    ) {
+      return
+    }
+
     setValidatedKey(key)
     if (isLogin) {
       setSimpleForm({
@@ -186,6 +213,7 @@ const Feedback: FC = () => {
               error={hasErrors('phone')}
               helperText={getErrorMessage('phone')}
               onKeyUp={disabledSubmit}
+              type="number"
             />
           </>
         ) : (
@@ -207,7 +235,6 @@ const Feedback: FC = () => {
             name="feedback-rating"
             value={isLogin ? simpleForm.star : form.star}
             onChange={(e, value) => handleChangeForm(value, 'star')}
-            onKeyUp={disabledSubmit}
             className={Style.rating}
             emptyIcon={<StarBorderRoundedIcon fontSize="inherit" />}
             icon={<StarRoundedIcon fontSize="inherit" />}

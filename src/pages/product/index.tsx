@@ -9,16 +9,17 @@ import Style from '../../styles/product/ListProductPage.module.scss'
 import Filter from '../../components/product/Filter'
 import ProductItem from '../../components/product/ProductItem'
 import PageHeading from '../../components/shared/PageHeading'
+import PageTitle from '@components/shared/PageTitle'
 import CustomPagination from '../../components/shared/CustomPagination'
 
 //data
 import { isMobileState } from '../../stores/sharedStores'
 import { getListProduct, getFilterProduct, getListProductByFilter } from '../../apis/landing-page/product'
 
-
 interface IFilterItem {
   id: string
   title: string
+  isActice: boolean
 }
 
 const lstOption = [
@@ -66,7 +67,11 @@ const ProductsPage: FC = () => {
     return ids
   }
 
-  const { data: listProduct, isFetching: productFetching, refetch } = useQuery(
+  const {
+    data: listProduct,
+    isFetching: productFetching,
+    refetch,
+  } = useQuery(
     ['listProductQuery', langCode, contentPage.page, contentPage.pageSize, handleGetIdFilter()],
     () =>
       stateFilter.length == 0
@@ -126,18 +131,22 @@ const ProductsPage: FC = () => {
   }
 
   const renderPagination = () => {
-    return (
-      <Box my={3}>
-        <CustomPagination
-          page={contentPage.page}
-          totalRecord={contentPage.total_record}
-          countPage={contentPage.pageSize}
-          hanleChangePage={(e, value) => handleChangePage(e, value)}
-          hanleChangePageSize={(value) => hanleChangePageSize(value)}
-          options={lstOption}
-        />
-      </Box>
-    )
+    if (contentPage.products.length > 0) {
+      return (
+        <Box my={3}>
+          <CustomPagination
+            page={contentPage.page}
+            totalRecord={contentPage.total_record}
+            countPage={contentPage.pageSize}
+            hanleChangePage={(e, value) => handleChangePage(e, value)}
+            hanleChangePageSize={(value) => hanleChangePageSize(value)}
+            options={lstOption}
+          />
+        </Box>
+      )
+    } else {
+      return null
+    }
   }
 
   if (productFetching && filterFetching) return <></>
@@ -149,26 +158,29 @@ const ProductsPage: FC = () => {
           <Grid>
             <PageHeading breadCrumbs={lstBreadCrumb} iconHome />
 
-            <Box mt={3} mb={3}>
-              <Typography variant="h1">{t('productList')}</Typography>
-            </Box>
+            <PageTitle title={t('productList')} />
           </Grid>
         )}
 
         <Filter lstFilter={listFilter} getFilter={(filter) => handleFilter(filter)} />
-        <Box className={Style.tagsFilter}>
-
-          {!isMobile &&
-            stateFilter.map((item) => (
+        {stateFilter.length > 0 && (
+          <Box className={Style.tagsFilter}>
+            {stateFilter.map((item) => (
               <div className={Style.tag} key={item.id}>
                 <Typography component="span" variant="inherit">
                   {item.title}
                 </Typography>
               </div>
             ))}
-
-        </Box>
-        <ProductItem lstProduct={contentPage.products} />
+          </Box>
+        )}
+        {contentPage.products?.length > 0 ? (
+          <ProductItem lstProduct={contentPage.products} />
+        ) : (
+          <Box className={Style.noResults}>
+            <Typography component="h1">{t('noResult')}</Typography>
+          </Box>
+        )}
 
         {renderPagination()}
       </Grid>

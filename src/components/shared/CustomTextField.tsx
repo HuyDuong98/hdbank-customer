@@ -19,7 +19,7 @@ interface TextFieldProps {
   icon?: JSX.Element
   error?: boolean
   helperText?: React.ReactNode
-  type?: 'text' | 'password'
+  type?: 'text' | 'password' | "number"
   validation?: boolean
   rows?: number
   isIconClick?: boolean

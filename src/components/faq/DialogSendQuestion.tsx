@@ -1,10 +1,10 @@
-import { FC, useLayoutEffect, useState } from 'react'
-import { Button, Grid, Avatar, Box, IconButton, FormHelperText } from '@material-ui/core'
+import { FC, useState } from 'react'
+import { Button, Grid, Avatar, Box } from '@material-ui/core'
 import Style from '../../styles/faq/ListFAQ.module.scss'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
+import ReCAPTCHA from 'react-google-recaptcha'
 
 import CustomTextField from '../../components/shared/CustomTextField'
-import CachedIcon from '@material-ui/icons/Cached'
 
 //icons
 import CustomDialog from '../shared/CustomDialog'
@@ -27,23 +27,25 @@ const schema = Joi.object({
     .max(50)
     .pattern(
       new RegExp(
-        /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s|_]+$/,
+        /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/,
       ),
     )
     .messages({
       'any.required': 'nameNotBlank',
       'string.max': 'limitName',
-      'string.pattern.base': 'nameNotValid',
+      'string.pattern.base': 'characterNotValid',
     }),
   phone: Joi.string()
     .empty(null)
     .required()
-    .max(10)
-    .pattern(new RegExp(/(0[3|5|7|8|9])+([0-9]{8})\b/))
+    .pattern(new RegExp(/^(((\+|)84(0?))|0)(3|5|7|8|9)+([0-9]{8})$/))
+    .max(12)
+    .min(10)
     .messages({
       'any.required': 'phoneNotBlank',
       'string.pattern.base': 'phoneNotValid',
       'string.max': 'phoneNotValid',
+      'string.min': 'phoneNotValid',
     }),
   email: Joi.string()
     .empty(null)
@@ -51,14 +53,34 @@ const schema = Joi.object({
     .messages({
       'string.email': 'emailNotValid',
     }),
-  title: Joi.string().empty(null).required().max(200).messages({
-    'any.required': 'titleNotBlank',
-    'string.max': 'titleLimit',
-  }),
-  content: Joi.string().empty(null).required().max(500).messages({
-    'any.required': 'contentNotBlank',
-    'string.max': 'contentLimit',
-  }),
+  title: Joi.string()
+    .empty(null)
+    .required()
+    .max(200)
+    .pattern(
+      new RegExp(
+        /^[a-zA-Z0-9ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/,
+      ),
+    )
+    .messages({
+      'any.required': 'titleNotBlank',
+      'string.max': 'titleLimit',
+      'string.pattern.base': 'characterNotValid',
+    }),
+  content: Joi.string()
+    .empty(null)
+    .required()
+    .max(500)
+    .pattern(
+      new RegExp(
+        /^[a-zA-Z0-9ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/,
+      ),
+    )
+    .messages({
+      'any.required': 'contentNotBlank',
+      'string.max': 'contentLimit',
+      'string.pattern.base': 'characterNotValid',
+    }),
   captcha: Joi.string().empty(null).required().messages({
     'any.required': 'captchaNotBlank',
   }),
@@ -131,25 +153,31 @@ const DialogSendQuestion: FC<IDialogSendQuestionProps> = (props) => {
     })
   }
 
+  const onChangeReCaptcha = (value) => {
+    localStorage.setItem('captchaToken', value)
+  }
+
   const handleSendRequest = async () => {
-    if (validateAll()) {
+    const captchaToken = localStorage.getItem('captchaToken')
+    console.log('captchaToken---> ', captchaToken)
+    if (validateAll() && captchaToken !== null) {
       const response = await mutateAsync({
         userName: form.name,
         phoneNumber: form.phone,
         email: form.email,
         title: form.title,
-        capcha: form.captcha,
+        capcha: form.captcha || '123456',
         content: form.content,
         islogin: isLogin ? '1' : '0',
-        captchaId: ImageCapcha.capchaId,
+        captchaId: ImageCapcha.capchaId || '123456',
       })
       if (response.isSuccessful) {
         setHiddenDialog(true)
         setMessage({
           ...message,
           isOpen: true,
-          message: response.successData.message,
-          title: t('Gửi thành công'),
+          message: t('MESS27'),
+          title: t('submittedSuccessfully'),
           isSuccess: 'success',
         })
       } else if (response.responseCode === -1) {
@@ -160,7 +188,7 @@ const DialogSendQuestion: FC<IDialogSendQuestionProps> = (props) => {
           ...message,
           isOpen: true,
           message: t('MESS28'),
-          title: t('Gửi thất bại'),
+          title: t('submitFailed'),
           isSuccess: 'warning',
         })
       }
@@ -192,7 +220,7 @@ const DialogSendQuestion: FC<IDialogSendQuestionProps> = (props) => {
   }
 
   const checkSubmitEnable = () => {
-    if (form.name && form.phone && form.captcha && form.content && form.title && validateAll()) {
+    if (form.name && form.phone && form.content && form.title && validateAll()) {
       setDisabledSubmit(false)
     } else {
       setDisabledSubmit(true)
@@ -243,6 +271,7 @@ const DialogSendQuestion: FC<IDialogSendQuestionProps> = (props) => {
               handleForm(value || null, 'phone')
             }}
             onKeyUp={checkSubmitEnable}
+            type="number"
           />
         </div>
 
@@ -286,8 +315,9 @@ const DialogSendQuestion: FC<IDialogSendQuestionProps> = (props) => {
             onKeyUp={checkSubmitEnable}
           />
         </div>
-        <div className={Style.textFieldWrapper}>
-          <Grid container className={Style.captcha} justifyContent="space-between">
+        <div className={Style.captcha}>
+          <ReCAPTCHA sitekey="6LcTWQIeAAAAALIQ3gkGL3b0ImDS8wQflo4f5n8P" onChange={onChangeReCaptcha} />
+          {/* <Grid container className={Style.captcha} justifyContent="space-between">
             <Grid item md={5} xs={5}>
               <Box mr={3}>
                 <CustomTextField
@@ -312,7 +342,7 @@ const DialogSendQuestion: FC<IDialogSendQuestionProps> = (props) => {
               </Box>
             </Grid>
           </Grid>
-          <FormHelperText error>{captchaMessage}</FormHelperText>
+          <FormHelperText error>{captchaMessage}</FormHelperText> */}
         </div>
       </>
     )

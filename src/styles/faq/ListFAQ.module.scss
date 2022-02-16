@@ -314,10 +314,12 @@
     }
 
     .captcha {
-      @media (max-width: $sm) {
-        img {
-          width: 9.375rem;
-        }
+      padding-bottom: 0.5rem;
+      & > div > div > div {
+        margin: auto;
+      }
+      &:last-of-type {
+        padding-bottom: 1rem;
       }
     }
   }

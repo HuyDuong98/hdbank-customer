@@ -15,20 +15,23 @@ import DialogOTP from '../otp/DialogOTP'
 import DialogRegister from '../register/DialogRegister'
 import DialogSetPassword from '../register/DialogSetPassword'
 import DialogAccountExist from '../register/DialogAccountExist'
+import PageTitle from '@components/shared/PageTitle'
 
 //images
-const IntroduceImg = '/assets/mobile/landing/introduce.png';
+const IntroduceImg = '/assets/mobile/landing/introduce.png'
 
 const schema = Joi.object({
   phoneNumber: Joi.string()
     .empty(null)
     .required()
-    .length(10)
-    .pattern(new RegExp(/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/))
+    .pattern(new RegExp(/^(((\+|)84(0?))|0)(3|5|7|8|9)+([0-9]{8})$/))
+    .max(12)
+    .min(10)
     .messages({
-      'any.required': 'phoneNoneEmpty',
-      'string.pattern.base': 'phoneWrong',
-      'string.length': 'phoneWrong',
+      'any.required': 'phoneNotBlank',
+      'string.pattern.base': 'phoneNotValid',
+      'string.max': 'phoneNotValid',
+      'string.min': 'phoneNotValid',
     }),
 })
 
@@ -184,7 +187,9 @@ const Introduce: FC = () => {
         <div className={Style.textWrap}>
           <Grid container justifyContent="center">
             <Grid item xs={12} md={10}>
-              <span className={Style.highlight}>{t('breakPayment')}</span>
+              <Grid className={Style.highlight}>
+                <PageTitle title={t('breakPayment')} color="primary" />
+              </Grid>
 
               <Grid container direction="column" className={Style.headingWrap}>
                 <Grid container direction="column" className={Style.title}>
@@ -208,6 +213,7 @@ const Introduce: FC = () => {
                       helperText={getErrorMessage('phoneNumber')}
                       onChange={(value) => handleOnchange(value || null, 'phoneNumber')}
                       onKeyUp={checkSubmitEnable}
+                      type="number"
                     />
                   </div>
 

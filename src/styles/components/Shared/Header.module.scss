@@ -2,23 +2,40 @@
 @import "../../common/screen_size";
 
 .container {
-  position: fixed;
+  position: relative;
   top: 0;
-  height: 4.375rem;
+  min-height: 4.375rem;
   background: $app--white;
   border-bottom: 0.0625rem solid $app--bg--01;
   z-index: 99;
-  padding: 0 1.5625rem;
+  padding: 1rem 1.5625rem;
   align-items: center;
   display: flex;
 
+  &.fixed {
+    position: fixed;
+    transition: top 1s linear;
+  }
+
   .menuWrapper {
     height: 100%;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+
+    @media (max-width: $lg) {
+      justify-content: space-between;
+    }
+
+    .listMenu {
+      display: flex;
+      flex-wrap: wrap;
+    }
 
     .logo {
       padding: 0;
       img {
         width: 8.125rem;
+        cursor: pointer;
       }
     }
 
@@ -28,12 +45,6 @@
       color: $app--black;
       font-size: 1rem;
       padding: 1rem;
-    }
-
-    @media (max-width: $lg) {
-      &:first-of-type {
-        margin-left: 2rem;
-      }
     }
   }
 
@@ -91,6 +102,7 @@
   @media (max-width: $sm) {
     position: relative;
     width: 100%;
+    padding: 0 1rem;
   }
 }
 .suggetItem {
@@ -110,16 +122,26 @@
   background-color: rgba(0, 0, 0, 0.3);
   position: fixed;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   left: 0;
-  top: 4.375rem;
+  top: 0;
+  z-index: 10;
 }
 .headerMobile {
+  max-height: 100%;
+  overflow-y: auto;
   @extend .container;
-  padding: 0 1rem;
+  position: fixed;
+  top: 0;
+  padding: 0 !important;
   width: 100%;
   .wrapper {
     height: 100%;
+    padding: 1rem;
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 99999;
   }
 }
 .searchBox > div > div {
@@ -128,17 +150,25 @@
 
 .popperMenu {
   z-index: 10;
+}
+.wrapperContentMobile {
+  background: #fff;
+  height: 100vh;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
   .menuWrapper {
     width: 100vw;
     height: 100vh;
     overflow-y: auto;
     overflow-x: hidden;
-    background-color: $app--white;
-
     .login {
       background-color: $app--bg--01;
-      padding-top: 1rem;
-      padding-bottom: 1rem;
+      padding: 1rem 0;
+      width: 100%;
       button {
         min-width: 10rem;
         font-size: 0.875rem;
@@ -156,21 +186,15 @@
     }
 
     .listMenu {
-      padding-left: 1rem;
-      padding-right: 1rem;
-
+      padding: 0 2rem;
       .listItem {
-        padding-top: 1rem;
-        padding-bottom: 1rem;
+        height: 3.5rem;
+        padding: 0;
       }
 
       a {
         color: $app--black;
         text-decoration: none;
-
-        // &.selected {
-        //   color: $app--primary--01;
-        // }
 
         &[aria-current="page"] {
           color: $app--primary--01;

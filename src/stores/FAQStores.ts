@@ -1,5 +1,5 @@
+import { IFAQListModal } from '@models/IFAQ'
 import { atom } from 'recoil'
-import { IFAQListModal } from '../../models/Landing/IFAQ'
 
 export const listFAQState = atom<IFAQListModal[]>({
   key: 'listFAQState',

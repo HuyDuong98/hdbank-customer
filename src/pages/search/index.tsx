@@ -40,7 +40,7 @@ const Search: FC = () => {
   const langCode =
     i18n.language === 'vn' || i18n.language === 'vi-VN' ? 'vi' : i18n.language === 'en-US' ? 'en' : i18n.language
   const cookieName = 'searchValue'
-  const lstBreadCrumb = [{ label: t('Tìm kiếm') }]
+  const lstBreadCrumb = [{ label: t('search') }]
   const [countPage, setCountPage] = useState<number>(10)
   const [totalRecord, setTotalRecord] = useState<number>(0)
   const [pageNumber, setPageNumber] = useState(1)
@@ -48,7 +48,7 @@ const Search: FC = () => {
   const router = useRouter()
 
   const [valueTab, setValueTab] = useState('0')
-  const keyword = router.query.keyword as string;
+  const keyword = router.query.keyword as string
 
   const [lstSearch, setLstSearch] = useState<ISearchModel[]>([])
 
@@ -56,6 +56,26 @@ const Search: FC = () => {
   const { data: searchData } = useQuery(['searchQuery', keyword, langCode, valueTab, pageNumber, countPage], () =>
     getSearchData(keyword || '', langCode, valueTab, pageNumber, countPage),
   )
+  const COUNT_STRING_CONTENT = 70
+  const handleCheckDesc = (desc: string) => {
+    if (!desc) return ''
+    if (!isMobile) return desc
+    const indexKey = desc.toLowerCase().indexOf(keyword.toLowerCase())
+    if (desc.length < COUNT_STRING_CONTENT) {
+      return desc
+    } else if (indexKey > COUNT_STRING_CONTENT && indexKey < desc.length) {
+      const newDesc = desc.slice(indexKey)
+      if (newDesc.length < COUNT_STRING_CONTENT) {
+        return '... ' + desc.slice(desc.length - COUNT_STRING_CONTENT - 3) // const 3 is land for ... in pre content
+      }
+      return newDesc
+    } else if (indexKey > desc.length - COUNT_STRING_CONTENT) {
+      const newDesc = desc.slice(COUNT_STRING_CONTENT)
+      return newDesc
+    } else {
+      return desc
+    }
+  }
 
   useEffect(() => {
     if (filter && filter.data.length > 0) {
@@ -81,7 +101,9 @@ const Search: FC = () => {
         return {
           id: item.id,
           title: item.title?.normalize('NFC').replaceAll(valueTitle, `<strong>${valueTitle}</strong>`),
-          content: item.content?.normalize('NFC').replaceAll(valueContent, `<strong>${valueContent}</strong>`),
+          content: handleCheckDesc(item?.content)
+            .normalize('NFC')
+            .replaceAll(valueContent, `<strong>${valueContent}</strong>`),
           tag: item.text_type,
           url: item.url,
         }
@@ -128,7 +150,7 @@ const Search: FC = () => {
         }
       }
     }
-  }, [searchData])
+  }, [searchData, isMobile])
 
   const handleChangePageSize = (e, page) => {
     setPageNumber(page)
@@ -150,7 +172,7 @@ const Search: FC = () => {
         {!isMobile && <PageHeading breadCrumbs={lstBreadCrumb} iconHome />}
         <Box mt={2} mb={2}>
           <Typography component="h1">
-            {t('Kết quả tìm kiếm')}: {filter && filter.keyword}
+            {t('searchResults')}: {filter && filter.keyword}
           </Typography>
         </Box>
         <Tabs tabs={tabs} value={valueTab} onChange={(value) => handleTab(value)} />
@@ -170,7 +192,7 @@ const Search: FC = () => {
                   <Box className={Style.tag}>
                     <Typography>{item.tag}</Typography>
                   </Box>
-                  <a href={item.url}>{t('Xem chi tiết')}</a>
+                  <a href={item.url}>{t('seeDetails')}</a>
                 </Grid>
               </Box>
             ))}
@@ -189,7 +211,7 @@ const Search: FC = () => {
         {!lstSearch ||
           (lstSearch.length === 0 && (
             <Box mt={3} mb={6}>
-              <Typography variant="body1">{t('Không tìm được kết quả phù hợp')}</Typography>
+              <Typography variant="body1">{t('noMatchingResultsFound')}</Typography>
             </Box>
           ))}
       </Box>

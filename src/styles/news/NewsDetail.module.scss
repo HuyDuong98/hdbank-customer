@@ -1,11 +1,10 @@
-@import "../common/screen_size";
-@import "../common/colours";
+@import '../common/screen_size';
+@import '../common/colours';
 
 .newsDetailPageWrap {
   img {
     width: 100%;
   }
-
   h4 {
     font-weight: 600;
     @media (max-width: $sm) {
@@ -47,7 +46,7 @@
       }
 
       &:after {
-        content: "";
+        content: '';
         display: inline-block;
         width: 0;
         height: 0;
@@ -116,6 +115,10 @@
 
   .relatedList {
     padding-bottom: 1.5rem;
+
+    img {
+      width: 100%;
+    }
 
     @media (max-width: $xs) {
       padding: 2rem 0;

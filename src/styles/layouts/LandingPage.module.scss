@@ -1,6 +1,8 @@
 @import '../common/screen_size';
 .wapperLadding {
-  margin-top: 4.375rem;
+  @media (max-width: $sm) {
+    margin-top: 4.5rem;
+  }
   section {
     padding: 2rem 0;
   }
@@ -23,4 +25,7 @@
 }
 .overlay {
   background-color: #000;
+}
+.hiddenWrap {
+  max-height: calc(100vh - 38.5rem);
 }

@@ -2,22 +2,30 @@ import { Container, Grid, Typography, IconButton, Divider, useMediaQuery } from 
 import { useState } from 'react'
 import Style from '../../styles/news/NewsDetail.module.scss'
 import { useTranslation } from 'react-i18next'
-import { isMobileState } from '../../stores/sharedStores'
 import { useRecoilValue } from 'recoil'
 import { Markup } from 'interweave'
 import copy from 'copy-to-clipboard'
 import { createTheme } from '@material-ui/core/styles'
 import clsx from 'clsx'
-import { pagePath } from '../../utils/constants/pagePath'
-import { getBanner } from '../../apis/landing-page/banner'
-import { getNewsDetailPage } from '../../apis/landing-page/news'
 import i18n from '../../config/i18next'
-import { getCookie } from '../../utils/helpers/cookieHelpers'
 import { useRouter } from 'next/router'
+
 //components
 import BannerSlide from '../../components/shared/BannerSlide'
 import PageHeading from '../../components/shared/PageHeading'
 import SocialShare from '../../components/shared/SocialShare'
+import PageTitle from '@components/shared/PageTitle'
+
+//utils
+import { getNewsDetailPage } from '../../apis/landing-page/news'
+import { getCookie } from '../../utils/helpers/cookieHelpers'
+import { pagePath } from '../../utils/constants/pagePath'
+
+//apis
+import { getBanner } from '../../apis/landing-page/banner'
+
+//stores
+import { isMobileState } from '../../stores/sharedStores'
 
 //image
 const NewsImg = '/assets/mobile/landing/news-page.png'
@@ -46,16 +54,15 @@ const myTheme = { other: 'stuff' }
 const theme = createTheme({ ...myTheme, ...breakpointsValues })
 
 export default function NewsDetailPage({ bannerData, data }) {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const isMobile = useRecoilValue(isMobileState)
-  const langCode = i18n.language === 'vn' || i18n.language === 'vi-VN' ? 'vi' : i18n.language
   const isXsSize = useMediaQuery(theme.breakpoints.down('xs'), {
     defaultMatches: true,
   })
   const router = useRouter()
 
   const [showBanner, setShowBanner] = useState(true)
-  const contentPage = data;
+  const contentPage = data
 
   const handleCopyLink = () => {
     copy(window.location.href, {
@@ -67,8 +74,6 @@ export default function NewsDetailPage({ bannerData, data }) {
   const handleChangePage = (id) => {
     router.push(`/news/${id}`)
   }
-
-  // if (isFetching) return <></>
 
   const renderCopyLink = () => {
     return (
@@ -181,9 +186,7 @@ export default function NewsDetailPage({ bannerData, data }) {
             <Typography variant="body2">{contentPage?.createdDate}</Typography>
           </Grid>
 
-          <Typography variant="h4" className={Style.title}>
-            {t(contentPage?.title)}
-          </Typography>
+          <PageTitle title={t(contentPage?.title)} />
 
           <Markup content={contentPage?.content} />
           {renderCopyLink()}
@@ -199,18 +202,18 @@ export default function NewsDetailPage({ bannerData, data }) {
 
 export async function getServerSideProps(context) {
   const param = context.params?.newsUrl
-  const id = param.slice(param.indexOf(".") + 1)
+  const id = param.slice(param.indexOf('.') + 1)
 
-  let langCode = getCookie("UserLanguage", context.req.headers.cookie) || 'vi';
+  let langCode = getCookie('UserLanguage', context.req.headers.cookie) || 'vi'
   langCode = langCode === 'vn' || i18n.language === 'vi-VN' ? 'vi' : 'en'
 
   const bannerData = await getBanner(langCode, 2)
-  const data = await getNewsDetailPage(langCode, id);
+  const data = await getNewsDetailPage(langCode, id)
 
   return {
     props: {
       bannerData,
       data,
     },
-  };
+  }
 }

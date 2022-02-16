@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import {
   Grid,
   Typography,
@@ -15,6 +15,7 @@ import { pagePath } from "../../utils/constants/pagePath";
 import Link from "next/link";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore, { Autoplay, Navigation } from "swiper";
 
 //images
 const SendIcon = "/assets/icons/chat-dot.svg";
@@ -24,6 +25,7 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import StarBorderRoundedIcon from "@material-ui/icons/StarBorderRounded";
 import StarRoundedIcon from "@material-ui/icons/StarRounded";
+import { TIME_AUTO_PLAY_SLIDE } from "../../utils/constants/variables";
 
 interface IFeedBackItem {
   name: string;
@@ -38,10 +40,12 @@ interface IFeedBackProps {
 }
 
 const CustomerReview: FC<IFeedBackProps> = (props) => {
+  SwiperCore.use([Autoplay, Navigation]);
   const { lstFeedback } = props;
   const { t } = useTranslation();
   const isMobile = useRecoilValue(isMobileState);
-
+  const navigationPrevRef = React.useRef(null);
+  const navigationNextRef = React.useRef(null);
   return (
     <Grid
       container
@@ -59,11 +63,11 @@ const CustomerReview: FC<IFeedBackProps> = (props) => {
         </span>
       </Grid>
 
-      <Grid container className={Style.sliderWrap}>
+      <Grid className={Style.sliderWrap}>
         <Swiper
           breakpoints={{
             300: {
-              slidesPerView: "auto",
+              slidesPerView: 2,
             },
             640: {
               slidesPerView: 2,
@@ -76,12 +80,20 @@ const CustomerReview: FC<IFeedBackProps> = (props) => {
           navigation={
             !isMobile
               ? {
-                  prevEl: "#navPrevReview",
-                  nextEl: "#navNextReview",
-                }
+                prevEl: navigationPrevRef.current,
+                nextEl: navigationNextRef.current,
+              }
               : false
           }
           className={Style.swiperWrap}
+          autoplay={{
+            delay: TIME_AUTO_PLAY_SLIDE,
+            disableOnInteraction: false,
+          }}
+          loop={true}
+          loopFillGroupWithBlank={true}
+          initialSlide={0}
+          centeredSlides={false}
         >
           {lstFeedback.map((feedback, idx) => {
             const {
@@ -125,14 +137,64 @@ const CustomerReview: FC<IFeedBackProps> = (props) => {
               </SwiperSlide>
             );
           })}
+          {lstFeedback.map((feedback, idx) => {
+            const {
+              name,
+              rate,
+              content,
+              avatar_pc_model,
+              avatar_mobile_model,
+            } = feedback;
+
+            return (
+              <SwiperSlide key={idx * 2} className={Style.slideItem}>
+                <Grid container alignItems="center" className={Style.itemWrap}>
+                  <Grid container alignItems="center" className={Style.padding}>
+                    <Rating
+                      readOnly
+                      value={Number(rate)}
+                      emptyIcon={<StarBorderRoundedIcon fontSize="inherit" />}
+                      icon={<StarRoundedIcon fontSize="inherit" />}
+                    />
+
+                    <span className={Style.comments}>{content}</span>
+
+                    <Grid item>
+                      <Avatar
+                        src={!isMobile ? avatar_pc_model : avatar_mobile_model}
+                        className={Style.avatarImg}
+                      ></Avatar>
+                    </Grid>
+                    <Grid item>
+                      <Grid
+                        container
+                        direction="column"
+                        className={Style.productInfo}
+                      >
+                        <span>{t(name)}</span>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </SwiperSlide>
+            );
+          })}
         </Swiper>
 
         {!isMobile && (
           <>
-            <IconButton id="navPrevReview" className={Style.navPrev}>
+            <IconButton
+              ref={navigationPrevRef}
+              id="navPrevReview"
+              className={Style.navPrev}
+            >
               <ChevronLeftIcon />
             </IconButton>
-            <IconButton id="navNextReview" className={Style.navNext}>
+            <IconButton
+              ref={navigationNextRef}
+              id="navNextReview"
+              className={Style.navNext}
+            >
               <ChevronRightIcon />
             </IconButton>
           </>

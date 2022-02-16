@@ -1,19 +1,11 @@
-@import '../common/colours';
-@import '../common/screen_size';
+@import "../common/colours";
+@import "../common/screen_size";
 .customerJourney {
   .stepJourney {
     max-width: 80%;
     margin: auto;
     @media (max-width: $sm) {
       max-width: 100%;
-    }
-  }
-  h1 {
-    font-size: 3rem;
-    font-weight: bold;
-    @media (max-width: $sm) {
-      font-size: 1.5rem;
-      padding-top: 1.5rem;
     }
   }
   h2 {

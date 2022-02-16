@@ -1,60 +1,49 @@
-import {
-  Grid,
-  Typography,
-  Button,
-  Select,
-  MenuItem,
-  Divider,
-} from "@material-ui/core";
-import { FC, useEffect, useState } from "react";
-import Style from "../../styles/components/shared/Footer.module.scss";
-import {
-  setCookie,
-  getCookie,
-  eraseCookie,
-} from "../../utils/helpers/cookieHelpers";
+import { Grid, Typography, Button, Select, MenuItem, Divider } from '@material-ui/core'
+import { FC, useEffect, useState } from 'react'
+import Style from '../../styles/components/shared/Footer.module.scss'
+import { setCookie, getCookie, eraseCookie } from '../../utils/helpers/cookieHelpers'
 
 //images
-const FacebookIcon = "/assets/socials/facebook.png";
-const YoutubeIcon = "/assets/socials/youtube.png";
-const Twitter = "/assets/socials/Twitter.png";
-const LinkedIn = "/assets/socials/LinkedIn.png";
-const Logo = "/assets/Logo.png";
-const Adroid = "/assets/images/QRGooglePlay.png";
-const Ios = "/assets/images/QRAppStore.png";
-const Vietnamese = "/assets/icons/ic_vietnamese.png";
-const English = "/assets/icons/icon_english.png";
-const MBAppStore = "/assets/images/mbAppStore.png";
-const MBGgPlay = "/assets/images/mbGooglePlay.png";
+const FacebookIcon = '/assets/socials/facebook.png'
+const YoutubeIcon = '/assets/socials/youtube.png'
+const Twitter = '/assets/socials/Twitter.png'
+const LinkedIn = '/assets/socials/LinkedIn.png'
+const Logo = '/assets/Logo.png'
+const Adroid = '/assets/images/QRGooglePlay.png'
+const Ios = '/assets/images/QRAppStore.png'
+const Vietnamese = '/assets/icons/ic_vietnamese.png'
+const English = '/assets/icons/icon_english.png'
+const MBAppStore = '/assets/images/mbAppStore.png'
+const MBGgPlay = '/assets/images/mbGooglePlay.png'
 
-import { useTranslation } from "react-i18next";
-import { isMobileState } from "../../stores/sharedStores";
-import { useRecoilValue } from "recoil";
-import DialogTips from "./DialogTips";
-import { pagePath } from "../../utils/constants/pagePath";
-import { useQuery } from "react-query";
-import { getFooterInfo } from "../../apis/footer";
-import { Markup } from "interweave";
+import { useTranslation } from 'react-i18next'
+import { isMobileState } from '../../stores/sharedStores'
+import { useRecoilValue } from 'recoil'
+import { useQuery } from 'react-query'
+import { getFooterInfo } from '../../apis/footer'
+import { Markup } from 'interweave'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 const Footer: FC = () => {
-  const { t, i18n } = useTranslation();
-  const isMobile = useRecoilValue(isMobileState);
-  const [language, setLanguage] = useState("vn");
+  const { t, i18n } = useTranslation()
+  const isMobile = useRecoilValue(isMobileState)
+  const [language, setLanguage] = useState('vn')
+  const router = useRouter()
 
   useEffect(() => {
-    setLanguage(i18n.language);
-  }, [i18n.language]);
-  const langCode =
-    i18n.language === "vn" || i18n.language === "vi-VN" ? "vi" : "en";
-  const { data } = useQuery(["footerInfoQuery", langCode], () =>
-    getFooterInfo(langCode)
-  );
+    setLanguage(i18n.language)
+  }, [i18n.language])
+  const langCode = i18n.language === 'vn' || i18n.language === 'vi-VN' ? 'vi' : 'en'
+  const { data } = useQuery(['footerInfoQuery', langCode], () => getFooterInfo(langCode))
 
   const handleChange = (event) => {
-    setLanguage(event.target.value);
-    i18n.changeLanguage(event.target.value);
-    setCookie("UserLanguage", event.target.value, 330);
-  };
+    setLanguage(event.target.value)
+    i18n.changeLanguage(event.target.value)
+    eraseCookie('UserLanguage')
+    setCookie('UserLanguage', event.target.value, 330)
+    router.reload()
+  }
 
   const renderFooter = () => {
     if (isMobile) {
@@ -76,11 +65,7 @@ const Footer: FC = () => {
               </Grid>
             </Grid>
             <Divider light />
-            <Grid
-              container
-              justifyContent="space-between"
-              className={Style.infoWrap}
-            >
+            <Grid container justifyContent="space-between" className={Style.infoWrap}>
               <Grid item xs={12}>
                 <Markup content={data?.item} />
               </Grid>
@@ -89,14 +74,10 @@ const Footer: FC = () => {
             <Grid item xs={12}>
               <div className={Style.padding}>
                 <Typography variant="body1" className={Style.bold}>
-                  {t("followUs")}
+                  {t('followUs')}
                 </Typography>
               </div>
-              <Grid
-                container
-                justifyContent="space-between"
-                className={Style.iconWrapper}
-              >
+              <Grid container justifyContent="space-between" className={Style.iconWrapper}>
                 <img src={FacebookIcon} className={Style.socialIcon} />
                 <img src={Twitter} className={Style.socialIcon} />
                 <img src={YoutubeIcon} className={Style.socialIcon} />
@@ -106,52 +87,51 @@ const Footer: FC = () => {
             <Divider light />
             <Grid container spacing={3} justifyContent="center">
               <Grid item sm={6}>
-                <span>{t("termsOfUse")}</span>
+                <span>{t('termsOfUse')}</span>
               </Grid>
               <Grid item sm={6}>
-                <span>{t("safetyAndSecurity")}</span>
+                <span>{t('safetyAndSecurity')}</span>
               </Grid>
             </Grid>
             <span
               className={Style.padding}
               // onClick={() => history.push(pagePath.sitemap)}
             >
-              {t("sidemap")}
+              {t('sidemap')}
             </span>
             <span className={Style.padding}></span>
           </div>
         </>
-      );
+      )
     }
     return (
       <>
         <div className={Style.container}>
           <img src={Logo} className={Style.logo} />
-          <Grid
-            container
-            justifyContent="space-between"
-            className={Style.infoWrap}
-          >
+          <Grid container justifyContent="space-between" className={Style.infoWrap}>
             <Grid item xs={12} md={6}>
               <Markup content={data?.item} />
 
               <Grid container className={Style.quickLink}>
-                <span>{t("termsOfUse")}</span>
-                <span>{t("safetyAndSecurity")}</span>
+                <Link href={'#'}>
+                  <span>{t('termsOfUse')}</span>
+                </Link>
+                <Link href={'#'}>
+                  <span>{t('safetyAndSecurity')}</span>
+                </Link>
+                <Link href={'#'}>
+                  <span>{t('sidemap')}</span>
+                </Link>
               </Grid>
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <Grid
-                container
-                justifyContent="space-between"
-                className={Style.socialWrap}
-              >
+              <Grid container justifyContent="space-between" className={Style.socialWrap}>
                 <Grid item xs={6} md={6}>
                   <Grid container justifyContent="center">
                     <Grid item xs={12} md={8}>
                       <Typography variant="body1" className={Style.bold}>
-                        {t("followUs")}
+                        {t('followUs')}
                       </Typography>
                       <Grid container className={Style.iconWrapper}>
                         <img src={FacebookIcon} className={Style.socialIcon} />
@@ -160,28 +140,21 @@ const Footer: FC = () => {
                         <img src={LinkedIn} className={Style.socialIcon} />
                       </Grid>
                       <Select
-                        value={language || "vn"}
+                        value={language || 'vn'}
                         onChange={handleChange}
                         displayEmpty
-                        inputProps={{ "aria-label": "Without label" }}
+                        inputProps={{ 'aria-label': 'Without label' }}
                         disableUnderline={true}
                         className={Style.languageWrap}
+                        defaultValue="vn"
                       >
-                        <MenuItem
-                          classes={{ root: Style.languageItem }}
-                          value="vn"
-                          className={Style.languageItem}
-                        >
+                        <MenuItem classes={{ root: Style.languageItem }} value="vn" className={Style.languageItem}>
                           <img src={Vietnamese} />
-                          <span>{t("vi")}</span>
+                          <span>{t('vi')}</span>
                         </MenuItem>
-                        <MenuItem
-                          classes={{ root: Style.languageItem }}
-                          value="en"
-                          className={Style.languageItem}
-                        >
+                        <MenuItem classes={{ root: Style.languageItem }} value="en" className={Style.languageItem}>
                           <img src={English} />
-                          <span>{t("en")}</span>
+                          <span>{t('en')}</span>
                         </MenuItem>
                       </Select>
                     </Grid>
@@ -191,7 +164,7 @@ const Footer: FC = () => {
                   <Grid container justifyContent="center">
                     <Grid item md={10}>
                       <Typography variant="body1" className={Style.bold}>
-                        {t("mobileApp")}
+                        {t('mobileApp')}
                       </Typography>
                       <Grid container className={Style.iconWrapper}>
                         <img src={Adroid} />
@@ -206,11 +179,16 @@ const Footer: FC = () => {
         </div>
 
         <Grid container justifyContent="center" className={Style.copyright}>
-          <span>{t("coppyRight")}</span>
+          <span>
+            {t('coppyRight')}{' '}
+            <Link href="https://biz4.vn">
+              <a target="_blank">BIZ4 Group.</a>
+            </Link>
+          </span>
         </Grid>
       </>
-    );
-  };
+    )
+  }
 
   return (
     <>
@@ -218,7 +196,7 @@ const Footer: FC = () => {
         {renderFooter()}
       </Grid>
     </>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

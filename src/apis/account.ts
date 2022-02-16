@@ -10,7 +10,7 @@ export const getAccount = async (): Promise<IAccountDto> => {
 }
 
 export const signIn = async (data: ISignInDto): Promise<IOperationResult<IAuthenticatedDto>> => {
-  const apiUrl = 'https://hdbank-beta-api.bizbank.vn/api/v1/User/signin'
+  const apiUrl = `${DOMAIN.hdbankBetaV1}/User/signin`
   return postAsync<ISignInDto, IAuthenticatedDto>(apiUrl, data)
 }
 
