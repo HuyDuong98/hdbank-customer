@@ -1,0 +1,41 @@
+@import '../../common/my_vars';
+@import '../../common/colours';
+
+.container {
+  width: 100%;
+  .title {
+    font-weight: 700;
+  }
+}
+
+.optionItem {
+  span {
+    padding: 0.3rem 0;
+  }
+
+  .shorthand {
+    color: $app--primary--01;
+    font-weight: 700;
+    text-transform: uppercase;
+
+    padding-right: 1rem;
+  }
+}
+
+.searchOption {
+  margin: 0 1rem;
+
+  .icon {
+    color: $app--bg--02;
+  }
+}
+
+.selectError {
+  fieldset {
+    border-color: #da2128;
+  }
+}
+
+.placeholder {
+  color: rgba($color: $app--black, $alpha: 0.35);
+}

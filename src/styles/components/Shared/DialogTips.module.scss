@@ -1,0 +1,140 @@
+@import '../../common/_colours.scss';
+@import '../../common/screen_size';
+
+.tipIcon {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1rem;
+  cursor: pointer;
+
+  &.active {
+    z-index: 101;
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba($color: $app--black, $alpha: 0.5);
+  z-index: 100;
+}
+.tipsWrapper {
+  width: 11.5rem;
+  background-color: $app--white;
+  z-index: 102;
+  border-radius: 0.5rem;
+  overflow: hidden;
+
+  ul {
+    li {
+      cursor: pointer;
+    }
+  }
+
+  .tipsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-bottom: 0.063rem solid $app--bg--01;
+
+    span {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .icon {
+      font-size: 1.2rem;
+      color: rgba($color: $app--black, $alpha: 0.6);
+      cursor: pointer;
+    }
+  }
+
+  .tabs {
+    background-color: $app--bg--04;
+    border-bottom: 1px solid $app--bg--01;
+
+    button {
+      text-transform: none;
+      font-weight: 700;
+    }
+  }
+  .tabContent {
+    max-height: 60vh;
+    overflow: auto;
+    @media (max-width: $sm) {
+      max-height: none;
+      height: calc(100vh - 6rem);
+    }
+  }
+
+  .phoneWrapper {
+    .formWrapper {
+      background-color: $app--bg--04;
+      padding: 1rem;
+      .phoneInput {
+        display: flex;
+        align-items: center;
+        button {
+          margin-left: 1rem;
+        }
+      }
+    }
+
+    .faqWrapper {
+      background-color: $app--white;
+      padding: 1rem;
+      border-radius: 0 0 0.5rem 0.5rem;
+
+      .iconSelect {
+        border-radius: 0.5rem;
+        border: 1px solid $app--bg--01;
+        text-align: center;
+        padding: 0.5rem 0;
+        cursor: pointer;
+        svg {
+          display: block;
+          margin: auto;
+        }
+
+        span {
+          font-size: 0.75rem;
+        }
+      }
+
+      .faqItem {
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        border: 1px solid $app--bg--01;
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5rem;
+        svg {
+          margin-right: 0.25rem;
+          color: rgba($color: $app--black, $alpha: 0.5);
+        }
+      }
+
+      a {
+        color: $app--primary--01;
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+.message {
+  text-align: center;
+  h4 {
+    color: $app--complementary--01;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  span {
+    font-size: 0.875rem;
+  }
+}

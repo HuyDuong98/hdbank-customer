@@ -1,0 +1,17 @@
+@import '../../common/_colours.scss';
+
+.container {
+  .bannerImage {
+    width: 100%;
+    height: 100%;
+  }
+}
+.slide {
+  span {
+    background-color: #da2128;
+  }
+}
+.emptySpacing {
+  width: 100%;
+  height: 30px;
+}

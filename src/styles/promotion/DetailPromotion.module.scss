@@ -1,0 +1,189 @@
+@import '../common/colours';
+@import '../common/screen_size';
+@import '../common/font';
+
+.detailPromotion {
+  h2 {
+    font-size: 2.3rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    @media (max-width: $sm) {
+      font-size: 1.5rem;
+      margin-bottom: 0.875rem;
+    }
+  }
+
+  h4 {
+    color: rgba(0, 0, 0, 0.8);
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+  h6 {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+  }
+  h3 {
+    font-size: 2.3rem;
+    font-weight: bold;
+    margin-bottom: 2.5rem;
+  }
+
+  .banner {
+    padding-top: 2.5rem;
+
+    img {
+      border-radius: 0.625rem;
+    }
+  }
+  .contentDetail {
+    h2 {
+      margin-bottom: 1rem;
+      font-size: 2rem;
+      @media (max-width: $sm) {
+        font-size: 1.5rem;
+      }
+    }
+
+    .description {
+      h6 {
+        font-weight: bold;
+      }
+      .time {
+        display: flex;
+        align-items: center;
+        color: $app--gray--light;
+        font-size: 0.75rem;
+        span {
+          margin-left: 0.5rem;
+        }
+      }
+
+      .paginationActiveStyle {
+        background-color: $app--primary--01;
+        opacity: 1;
+      }
+
+      .sliderSpacingBottom {
+        height: 2rem;
+      }
+
+      .card {
+        text-align: center;
+        padding: 0.75rem 0;
+        display: grid;
+        flex-direction: column;
+        justify-content: space-between;
+        grid-template-rows: 2fr 100px;
+        height: 100%;
+
+        @media (max-width: $sm) {
+          grid-template-rows: 2fr 75px;
+        }
+        img {
+          width: 100%;
+          height: 10.625rem;
+          object-fit: contain;
+          margin: auto;
+        }
+        .image {
+          width: 100%;
+          height: 11rem;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+        .detailCard {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          margin-top: 10px;
+
+          .title {
+            display: block;
+            display: -webkit-box;
+            color: $app--black;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+        span {
+          font-weight: 400;
+        }
+        button {
+          margin-top: 0.5rem;
+          span {
+            font-weight: 700;
+          }
+        }
+      }
+    }
+  }
+
+  .prmotionContent {
+    img {
+      max-width: 100%;
+    }
+  }
+
+  .promotionsOther {
+    text-align: center;
+    h2 {
+      margin-bottom: 0.5rem;
+    }
+
+    .subTitle {
+      display: block;
+    }
+
+    hr {
+      margin: auto;
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+      max-width: 3rem;
+      background-color: rgba($color: $app--black, $alpha: 0.7);
+    }
+
+    button {
+      margin-top: 2rem;
+    }
+    .sliderOther {
+      position: relative;
+      .swiperOther {
+        width: calc(100% - 7rem);
+        @media (max-width: $sm) {
+          width: 100%;
+        }
+        .slideItem {
+          .itemWrap {
+            margin: auto;
+          }
+        }
+      }
+
+      .nav {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        color: $app--white;
+        background-color: rgba($color: $app--black, $alpha: 0.15);
+        position: absolute;
+        top: 30%;
+      }
+
+      .navPrev {
+        @extend .nav;
+        left: 0;
+      }
+      .navNext {
+        @extend .nav;
+        right: 0;
+      }
+    }
+  }
+}

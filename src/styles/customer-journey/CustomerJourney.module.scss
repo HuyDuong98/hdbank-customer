@@ -1,0 +1,67 @@
+@import "../common/colours";
+@import "../common/screen_size";
+.customerJourney {
+  .stepJourney {
+    max-width: 80%;
+    margin: auto;
+    @media (max-width: $sm) {
+      max-width: 100%;
+    }
+  }
+  h2 {
+    font-weight: 700;
+    font-size: 1.5rem;
+  }
+  .boxWish {
+    width: fit-content;
+    label {
+      display: block;
+      border: 1px solid rgba($app--black, 0.1);
+      border-radius: 1.3rem;
+      padding: 0.6rem 1.5rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      &:hover {
+        color: $app--primary--01;
+        background-color: rgba($app--primary--01, 0.1);
+        border-color: transparent;
+      }
+    }
+    input {
+      display: none;
+    }
+    input:checked + label {
+      color: $app--primary--01;
+      background-color: rgba($app--primary--01, 0.1);
+      border-color: rgba($app--primary--01, 0.1);
+    }
+  }
+  .boxWish + .boxWish {
+    margin-top: 1rem;
+  }
+  .needItem {
+    label {
+      display: block;
+      border: 1px solid $app--primary--02;
+      border-radius: 1.3rem;
+      padding: 0.6rem 1.5rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      color: $app--primary--02;
+
+      &:hover {
+        color: $app--white;
+        background-color: $app--primary--02;
+        border-color: $app--primary--02;
+      }
+    }
+    input {
+      display: none;
+    }
+    input:checked + label {
+      color: $app--white;
+      background-color: $app--primary--02;
+      border-color: $app--primary--02;
+    }
+  }
+}

@@ -1,0 +1,130 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+src/components/faq/FAQList.tsx
+src/components/faq/FAQItem.tsx
+src/components/faq/DialogSendQuestion.tsx
+src/components/account/Slideshow.tsx
+src/components/account/LoginForm.tsx
+src/components/account/ForgotPassForm.tsx
+src/components/account/DialogLogin.tsx
+src/components/account/ConfirmOTP.tsx
+src/apis/otp.ts
+src/apis/notification.ts
+src/apis/lookup.ts
+src/apis/landing-page/sitemap.ts
+src/apis/landing-page/search.ts
+src/apis/landing-page/promotion.ts
+src/apis/landing-page/product.ts
+src/apis/landing-page/news.ts
+src/apis/landing-page/home.ts
+src/apis/landing-page/feedback.ts
+src/apis/landing-page/banner.ts
+src/apis/footer.ts
+src/apis/faq.ts
+src/apis/dtos/landing-page/ISitemapDto.ts
+src/apis/dtos/landing-page/IPromotionsDto.ts
+src/apis/dtos/landing-page/IProductsDto.ts
+src/apis/dtos/landing-page/INewsDto.ts
+src/apis/dtos/landing-page/IHomeDto.ts
+src/apis/dtos/landing-page/IFeedback.ts
+src/apis/dtos/ISignInDto.ts
+src/apis/dtos/INotificationDto.ts
+src/apis/dtos/IFAQDto.ts
+src/apis/dtos/IAuthenticatedDto.ts
+src/apis/dtos/IAddressLookupDto.ts
+src/apis/dtos/IAccountDto.ts
+src/apis/account.ts
+server.js
+README.md
+public/vercel.svg
+public/robots.txt
+public/manifest.json
+public/logo512.png
+public/logo192.png
+public/locales/vn/translation.json
+public/locales/en/translation.json
+public/favicon.ico
+public/assets/socials/zalo_40x40.png
+public/assets/socials/zalo.png
+public/assets/socials/youtube.png
+public/assets/socials/Twitter.png
+public/assets/socials/Telegram.png
+public/assets/socials/LinkedIn.png
+public/assets/socials/Instagram.png
+public/assets/socials/Google.png
+public/assets/socials/facebook.png
+public/assets/slides/slide-3.png
+public/assets/slides/slide-2.png
+public/assets/slides/slide-1.png
+public/assets/self-service/NotiMobile.png
+public/assets/self-service/Dashboard.png
+public/assets/self-service/Card.png
+public/assets/self-service/advRight.png
+public/assets/self-service/advMid.png
+public/assets/self-service/advLeft.png
+public/assets/register/qr-code.png
+public/assets/register/empty.png
+public/assets/register/completeFaceId.png
+public/assets/products/product1.png
+public/assets/notification.png
+public/assets/news/new1.png
+public/assets/mobile/landing/user-profile.svg
+public/assets/mobile/landing/tip.svg
+public/assets/mobile/landing/product.png
+public/assets/mobile/landing/offers.png
+public/assets/mobile/landing/news.png
+public/assets/mobile/landing/news-page.png
+public/assets/mobile/landing/Logo-Color.png
+public/assets/mobile/landing/Landing/user-profile.svg
+public/assets/mobile/landing/Landing/Tip.svg
+public/assets/mobile/landing/Landing/Rectangle.png
+public/assets/mobile/landing/Landing/Rectangle 4084.png
+public/assets/mobile/landing/Landing/Rectangle 4083.png
+public/assets/mobile/landing/Landing/Rectangle 1492.png
+public/assets/mobile/landing/Landing/Rectangle 1491.png
+public/assets/mobile/landing/Landing/Rectangle 1474.png
+public/assets/mobile/landing/Landing/iPhone 11 Pro/image 81.png
+public/assets/mobile/landing/Landing/iPhone 11 Pro/Frame 7076.png
+public/assets/mobile/landing/Landing/Image.png
+public/assets/mobile/landing/Landing/image 81.png
+public/assets/mobile/landing/Landing/image 80.png
+public/assets/mobile/landing/Landing/image 78.png
+public/assets/mobile/landing/Landing/image 76.png
+public/assets/mobile/landing/Landing/image 64.png
+public/assets/mobile/landing/Landing/Group 427319210.png
+public/assets/mobile/landing/Landing/Group 427319091.png

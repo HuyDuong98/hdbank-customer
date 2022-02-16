@@ -1,0 +1,236 @@
+@import "../../common/colours";
+@import "../../common/screen_size";
+
+.container {
+  padding: 0 1rem;
+}
+
+.featuresWrap {
+  position: relative;
+  background: $app--primary--dark;
+  color: $app--white;
+
+  padding: 2.5rem 0;
+
+  .headingWrap {
+    position: relative;
+    text-align: center;
+
+    &::after {
+      position: absolute;
+      left: 50%;
+      bottom: -1.5rem;
+      transform: translateX(-50%);
+
+      content: "";
+      display: block;
+      width: 3rem;
+      height: 1px;
+      background: white;
+    }
+  }
+
+  .group {
+    display: flex;
+
+    position: relative;
+    width: 85%;
+    margin: 13.5rem auto 1rem;
+
+    background: rgba($color: $app--black, $alpha: 0.15);
+    border-radius: 0.5rem;
+
+    @media (max-width: $lg) {
+      margin-top: 10rem;
+    }
+
+    @media (max-width: $xs) {
+      width: 100%;
+    }
+
+    &.second {
+      flex-direction: row-reverse;
+
+      @media (max-width: $md) {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: $md) {
+      flex-direction: column;
+      margin-top: 3.5rem;
+    }
+
+    .textWrap {
+      width: 50%;
+      padding: 0 4rem;
+      justify-content: center;
+
+      @media (max-width: $md) {
+        width: 100%;
+      }
+
+      @media (max-width: $sm) {
+        padding: 0 3rem;
+      }
+
+      @media (max-width: $xs) {
+        padding: 0;
+      }
+
+      .item {
+        padding: 2rem 1rem;
+        text-align: center;
+        border-bottom: 0.063rem solid rgba($color: $app--white, $alpha: 0.1);
+
+        &:last-child {
+          border-bottom: 0;
+        }
+
+        svg {
+          margin: auto;
+          font-size: 1.5rem;
+          width: 1.625rem;
+          height: 1.625rem;
+        }
+
+        span {
+          display: block;
+          padding-top: 0.2rem;
+          font-weight: 600;
+          font-size: 1.25rem;
+        }
+      }
+    }
+
+    .imgWrap {
+      display: flex;
+      justify-content: center;
+
+      width: 50%;
+      height: 100%;
+
+      @media (max-width: $md) {
+        height: unset;
+        width: 100%;
+      }
+
+      img {
+        position: absolute;
+        bottom: 0;
+        height: 30rem;
+
+        &.secondImg {
+          height: 25rem;
+
+          @media (max-width: $md) {
+            height: unset;
+            margin-top: 1.5rem;
+          }
+        }
+
+        &.noneLayer {
+          display: none;
+
+          @media (max-width: $lg) {
+            display: block;
+          }
+        }
+
+        &.layer {
+          right: -2rem;
+          display: block;
+
+          @media (max-width: $lg) {
+            display: none;
+          }
+        }
+
+        @media (max-width: $md) {
+          height: unset;
+          position: unset;
+        }
+      }
+    }
+  }
+}
+//common
+.headingWrap {
+  text-align: center;
+  position: relative;
+
+  .title {
+    padding-bottom: 0.5rem;
+
+    h3 {
+      font-weight: 700;
+      padding-bottom: 0.5rem;
+
+      @media (max-width: $lg) {
+        font-size: 2rem;
+      }
+
+      @media (max-width: $md) {
+        font-size: 1.8rem;
+      }
+
+      @media (max-width: $sm) {
+        font-size: 1.5rem;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: $sm) {
+      font-size: 0.875rem;
+      text-align: center;
+
+      padding: 1rem 0;
+    }
+  }
+
+  span {
+    font-size: 1rem;
+  }
+
+  @media (max-width: $sm) {
+    font-size: 0.875rem;
+  }
+}
+
+.icon {
+  position: absolute;
+  top: -1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+
+  box-shadow: 0px 0.5rem 1rem -0.25rem $app--border;
+
+  width: 3rem;
+  height: 3rem;
+
+  background: $app--white;
+
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  img {
+    width: 1.5rem;
+  }
+}
+
+.btnDiv {
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  text-align: center;
+}
+
+.mobileBtn {
+  background: $app--white !important;
+  color: $app--primary--01 !important;
+  a {
+    color: $app--primary--01;
+  }
+}

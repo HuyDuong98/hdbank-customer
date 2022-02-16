@@ -1,0 +1,25 @@
+.popup{
+    position: fixed;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 10000;
+    background-color: #fff;
+    border-radius: 10px;
+    min-width: 2.2rem;
+    min-height: 10rem;
+}
+.popupHead{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 18px;
+    text-transform: uppercase;
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.2);
+    svg{
+        cursor: pointer;
+    }
+}
+.popupContent{
+    padding: 1rem 0.6rem;
+}

@@ -1,0 +1,154 @@
+@import '../common/colours';
+@import '../common/screen_size';
+
+.dialogWrapper {
+  .dialogHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-bottom: 0.083rem solid $app--bg--01;
+
+    h2 {
+      font-size: 1.2rem;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+    .icon {
+      font-size: 1.2rem;
+      color: rgba($color: $app--black, $alpha: 0.6);
+      cursor: pointer;
+    }
+  }
+
+  .noteWrap {
+    max-width: 25rem;
+
+    ul {
+      margin: 0;
+      padding-left: 1.25rem;
+
+      li {
+        font-style: italic;
+        color: $app--gray--light;
+      }
+    }
+
+    .text {
+      padding: 2rem 1rem;
+    }
+
+    .btn {
+      width: 100%;
+      text-align: center;
+
+      padding: 2rem;
+
+      border-top: 0.083rem solid $app--bg--04;
+
+      button {
+        width: 50%;
+      }
+    }
+  }
+
+  .dialogBody {
+    ul {
+      margin: 0;
+      padding-left: 1.25rem;
+
+      li {
+        font-style: italic;
+        color: $app--gray--light;
+      }
+    }
+
+    .group {
+      padding: 1rem;
+    }
+
+    .passwordForm {
+      padding: 1rem;
+      min-width: 25rem;
+    }
+
+    .fqaWrap {
+      background-color: $app--bg--03;
+      height: 100%;
+      width: 100%;
+      padding: 1rem;
+
+      .fqaItem {
+        display: flex;
+        padding: 1rem 0;
+
+        svg {
+          font-size: 1.8rem;
+          color: $app--primary--02;
+        }
+
+        .text {
+          span {
+            &:first-of-type {
+              font-weight: bold;
+            }
+          }
+        }
+      }
+    }
+
+    .alert {
+      padding: 1rem 0 2rem;
+      display: flex;
+      justify-content: space-between;
+
+      svg {
+        cursor: pointer;
+      }
+    }
+
+    .textFieldWrapper {
+      padding-bottom: 0.5rem;
+
+      &:last-of-type {
+        padding-bottom: 1rem;
+      }
+    }
+
+    .titleComplete {
+      text-align: center;
+      font-weight: 700;
+      padding: 1rem 0;
+    }
+
+    .completeIconWrapper {
+      padding-bottom: 1rem;
+    }
+
+    .captcha {
+      @media (max-width: $sm) {
+        img {
+          width: 9.375rem;
+        }
+      }
+    }
+  }
+}
+
+.return {
+  display: flex;
+  align-items: center;
+  color: $app--black;
+}
+
+.imgCapcha {
+  padding-left: 1rem;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.btnCapcha {
+  border-radius: 50%;
+}

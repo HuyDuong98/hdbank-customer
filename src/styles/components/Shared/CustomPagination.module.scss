@@ -1,0 +1,24 @@
+@import '../../common/colours';
+@import '../../common/screen_size';
+
+.pagination {
+  ul {
+    @media (max-width: $sm) {
+      justify-content: center;
+    }
+  }
+}
+
+.pageSize {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  @media (max-width: $sm) {
+    justify-content: center;
+  }
+  & > span {
+    white-space: nowrap;
+    display: block;
+    margin-right: 0.5rem;
+  }
+}

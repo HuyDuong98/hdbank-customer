@@ -1,0 +1,95 @@
+@import "../common/screen_size";
+@import "../common/colours";
+
+.feedbackWrapper {
+  h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    @media (max-width: $sm) {
+      font-size: 1.5rem;
+      padding-top: 1.5rem;
+    }
+  }
+  .introWrapper {
+    padding-top: 2rem;
+    img {
+      max-width: 100%;
+    }
+
+    .content {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      text-align: center;
+      padding: 0 3rem 0 0;
+
+      @media (max-width: $sm) {
+        padding: 0;
+      }
+      .textGradiant {
+        background: linear-gradient(to right, $app--primary--01, $app--primary--02);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 3rem;
+        font-weight: bold;
+
+        span {
+          font-size: 2rem;
+          margin-right: 0.5rem;
+          vertical-align: bottom;
+        }
+      }
+    }
+
+    h4 {
+      font-size: 1.875rem;
+      font-weight: bold;
+      @media (max-width: $sm) {
+        font-size: 1.5rem;
+      }
+    }
+  }
+  .formWrapper {
+    padding: 4rem 0;
+    h3 {
+      background: linear-gradient(to right, $app--primary--01, $app--primary--02);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 2rem;
+      font-weight: bold;
+      text-align: justify;
+      padding: 0 3rem;
+
+      @media (max-width: $sm) {
+        font-size: 1.5rem;
+        padding: 0.15rem 0rem;
+        text-align: center;
+      }
+    }
+  }
+}
+.listWrapper {
+  background-color: $app--bg--03;
+  padding: 1rem 0;
+
+  img {
+    height: 100%;
+
+    @media (max-width: $sm) {
+      display: none;
+    }
+  }
+
+  .slogan {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    text-align: center;
+    span {
+      font-size: 1.875rem;
+      font-weight: bold;
+      @media (max-width: $sm) {
+        font-size: 1.5rem;
+      }
+    }
+  }
+}

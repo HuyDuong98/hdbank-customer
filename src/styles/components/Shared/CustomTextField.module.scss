@@ -1,0 +1,40 @@
+@import '../../common/_colours.scss';
+
+.container {
+  width: 100%;
+
+  span {
+    font-weight: 700;
+  }
+
+  input::-ms-reveal,
+  input::-ms-clear {
+    display: none;
+  }
+
+  .alert {
+    color: $app--primary--01;
+  }
+
+  .icon {
+    color: $app--bg--02;
+
+    &.cursor {
+      cursor: pointer;
+    }
+  }
+
+  .success {
+    fieldset {
+      border-left-width: 0.375rem !important;
+      border-color: $app--complementary--01 !important;
+    }
+  }
+
+  .error {
+    fieldset {
+      border-left-width: 0.375rem !important;
+      border-color: $app--primary--01 !important;
+    }
+  }
+}

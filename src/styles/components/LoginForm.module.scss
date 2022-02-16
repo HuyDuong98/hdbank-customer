@@ -1,0 +1,173 @@
+@import '../common/_colours.scss';
+@import '../common/screen_size';
+
+.mainWrapper {
+  height: 100vh;
+  min-height: 48rem;
+}
+
+.wrapper {
+  padding-bottom: 2.5rem;
+}
+
+.logo {
+  padding: 5rem 0 3.125rem 0;
+
+  @media (max-width: 1500px) {
+    padding: 3rem 0 0 0;
+  }
+}
+
+.headingWrapper {
+  padding: 3.125rem 0;
+
+  h3 {
+    font-weight: 700;
+  }
+}
+
+.captchaWrapper {
+  h5 {
+    font-weight: 700;
+    color: $app--primary--01;
+    text-align: center;
+    letter-spacing: 0.5rem;
+  }
+
+  button {
+    border-radius: 50%;
+  }
+}
+
+.buttonWrapper {
+  padding: 2.1875rem 0 0.625rem 0;
+
+  .alertText {
+    margin-top: 0.25rem;
+  }
+}
+
+.forgotPasswordWrapper {
+  padding: 0.5rem 0;
+
+  a {
+    width: 100%;
+    text-align: center;
+    font-weight: 700;
+    cursor: pointer;
+  }
+}
+
+.registerWrapper {
+  padding: 0.5rem 0;
+
+  span {
+    font-weight: 700;
+    line-height: 1.75rem;
+    padding-right: 0.3125rem;
+  }
+
+  a {
+    font-weight: 700;
+    color: $app--primary--02;
+    cursor: pointer;
+  }
+}
+
+.titleWrapper {
+  display: flex;
+  flex-direction: column;
+  font-size: 1rem;
+  text-align: center;
+  padding: 0 0 2rem 0;
+
+  .alert {
+    padding-top: 0.5rem;
+    color: $app--primary--01;
+  }
+}
+
+.inputTitle {
+  font-size: 1rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.dialogWrapper {
+  position: relative;
+
+  &__img {
+    width: 100%;
+    height: 21.375rem;
+  }
+  &__text {
+    margin: 1.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    button {
+      width: fit-content;
+      margin-top: 1rem;
+    }
+  }
+
+  .closeDialog {
+    position: absolute;
+    right: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    color: $app--white;
+    background: rgba($color: $app--black, $alpha: 0.6);
+    border-bottom-left-radius: 100%;
+    cursor: pointer;
+    z-index: 1;
+
+    &:hover {
+      background: rgba($color: $app--black, $alpha: 0.8);
+    }
+
+    div {
+      position: relative;
+    }
+
+    .icon {
+      position: absolute;
+      top: 50%;
+      right: 50%;
+      transform: translate(60%, 10%);
+    }
+  }
+}
+
+.otpInputWrapper {
+  justify-content: center;
+  div {
+    padding: 0 0.625rem;
+
+    input {
+      width: 3.125rem !important;
+      height: 3.125rem;
+      border-radius: 0.5rem;
+      border: none;
+      background-color: #f4f6f9;
+      font-size: 1rem;
+
+      &:focus {
+        border: 0.0625rem solid $app--primary--01;
+      }
+      &:focus-within {
+        outline: none;
+      }
+    }
+
+    &:first-of-type {
+      padding-left: 0;
+    }
+
+    &:last-of-type {
+      padding-right: 0;
+    }
+  }
+}

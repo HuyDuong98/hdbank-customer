@@ -1,0 +1,61 @@
+@import '../common/colours';
+@import '../common/screen_size';
+
+.dialogWrapper {
+  .dialogHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+
+    h2 {
+      font-size: 1.2rem;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+    .icon {
+      font-size: 1.2rem;
+      color: rgba($color: $app--black, $alpha: 0.6);
+      cursor: pointer;
+    }
+  }
+
+  .noteWrap {
+    width: 20rem;
+
+    .text {
+      padding: 1rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-content: center;
+
+      h6 {
+        margin: 0;
+        text-align: center;
+      }
+
+      span {
+        display: block;
+        text-align: center;
+      }
+
+      .phone {
+        color: $app--primary--02;
+        padding: 1rem 0;
+      }
+    }
+
+    .btn {
+      width: 100%;
+      text-align: center;
+
+      padding: 1rem;
+
+      border-top: 0.083rem solid $app--bg--04;
+
+      button {
+        width: 50%;
+      }
+    }
+  }
+}
